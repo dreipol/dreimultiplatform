@@ -20,11 +20,13 @@ repositories {
     jcenter()
 }
 
+group="ch.dreipol.dreimultiplatform"
+
 publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/dreipol/REPOSITORY")
+            url = uri("https://maven.pkg.github.com/dreipol/dreimultiplatform")
             credentials {
                 username = System.getenv("USERNAME")
                 password = System.getenv("TOKEN")
