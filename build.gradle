@@ -28,7 +28,7 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/dreipol/dreimultiplatform")
             credentials {
-                username = "dreipol"
+                username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("TOKEN")
             }
         }
