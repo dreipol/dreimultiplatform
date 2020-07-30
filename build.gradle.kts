@@ -1,5 +1,5 @@
 group = "ch.dreipol"
-version = "0.0.2-SNAPSHOT"
+version = "0.0.3-SNAPSHOT"
 
 buildscript {
     repositories {
@@ -31,7 +31,11 @@ allprojects {
 }
 
 kotlin {
-    ios("ios")
+    ios("ios") {
+        binaries {
+            framework()
+        }
+    }
     jvm("android")
     sourceSets["commonMain"].dependencies {
         implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
@@ -42,6 +46,9 @@ kotlin {
     sourceSets["iosMain"].dependencies {
         implementation("org.jetbrains.kotlin:kotlin-stdlib")
     }
+    sourceSets["iosMain"].dependsOn(sourceSets["commonMain"])
+    sourceSets["iosArm64Main"].dependsOn(sourceSets["iosMain"])
+    sourceSets["iosX64Main"].dependsOn(sourceSets["iosMain"])
 }
 
 publishing {
