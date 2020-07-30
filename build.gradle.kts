@@ -45,11 +45,6 @@ kotlin {
 }
 
 publishing {
-    publications {
-        create<MavenPublication>("default") {
-            from(components["kotlin"])
-        }
-    }
     repositories {
         maven {
             url = uri("https://maven.pkg.github.com/dreipol/dreimultiplatform")
