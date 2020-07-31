@@ -21,5 +21,7 @@ jobs:
         # If we split on '/' and take the 3rd value,
         # we can get the release name.
         run: |
+          GIT_HASH=$(git rev-parse --short "$GITHUB_SHA")
+          echo "Version: ${GIT_HASH}"
           echo "Github username: ${GITHUB_ACTOR}"
-          ./gradlew publish
+          ./gradlew -Pversion=${GIT_HASH} publish
