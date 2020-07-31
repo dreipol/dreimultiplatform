@@ -1,4 +1,4 @@
-package ch.zkb.cassie.shared.ch.zkb.cassie.plattformDependent
+package ch.dreipol.dreimultiplatform
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
