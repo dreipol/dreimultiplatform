@@ -34,7 +34,6 @@ allprojects {
 }
 
 group = "ch.dreipol"
-version = "0.0.4-SNAPSHOT"
 
 
 kotlin {
