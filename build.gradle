@@ -37,6 +37,15 @@ group = "ch.dreipol"
 
 
 kotlin {
+    targets {
+        targetFromPreset(presets.android, "android")
+        final def iOSTarget = System.getenv("SDK_NAME")?.startsWith("iphoneos")   \
+                                ? presets.iosArm64 : presets.iosX64
+
+        fromPreset(iOSTarget, 'ios') {
+        }
+
+    }
     ios {
         binaries {
             framework()
