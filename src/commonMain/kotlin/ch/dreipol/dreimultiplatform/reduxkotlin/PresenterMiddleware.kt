@@ -1,7 +1,8 @@
-package org.reduxkotlin
+package ch.dreipol.dreimultiplatform.reduxkotlin
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.reduxkotlin.*
 import kotlin.coroutines.CoroutineContext
 
 data class AttachView(val view: View)

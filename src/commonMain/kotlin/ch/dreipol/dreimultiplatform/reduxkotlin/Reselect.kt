@@ -1,4 +1,4 @@
-package org.reduxkotlin
+package ch.dreipol.dreimultiplatform.reduxkotlin
 
 import kotlin.jvm.JvmField
 

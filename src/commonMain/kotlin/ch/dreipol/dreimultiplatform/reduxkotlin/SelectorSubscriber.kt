@@ -1,7 +1,5 @@
-package ch.zkb.cassie.shared.org.reduxkotlin
+package ch.dreipol.dreimultiplatform.reduxkotlin
 
-import org.reduxkotlin.Selector
-import org.reduxkotlin.SelectorSubscriberBuilder
 import org.reduxkotlin.Store
 import org.reduxkotlin.StoreSubscriber
 
