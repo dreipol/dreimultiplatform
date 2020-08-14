@@ -37,10 +37,25 @@ group = "ch.dreipol"
 
 
 kotlin {
-
-    ios("ios") {
-        binaries {
-            framework()
+    Properties properties = new Properties()
+    File localProperties = new File(rootProject.projectDir.absolutePath + '/local.properties')
+    String isIosDev = null
+    if (localProperties.exists()) {
+        properties.load(localProperties.newDataInputStream())
+        isIosDev = properties.getProperty('dev.ios')
+    }
+    if (isIosDev != null) {
+        String sdkName =  System.getenv("SDK_NAME")
+        if (sdkName != null && sdkName.startsWith("iphoneos")) {
+            iosArm64("ios")
+        } else {
+            iosX64("ios")
+        }
+    } else {
+        ios("ios") {
+            binaries {
+                framework()
+            }
         }
     }
 
@@ -65,11 +80,6 @@ kotlin {
         implementation("org.jetbrains.kotlin:kotlin-stdlib")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.5-native-mt")
     }
-    sourceSets["iosMain"].dependsOn(sourceSets["commonMain"])
-    sourceSets["iosArm64Main"].dependsOn(sourceSets["iosMain"])
-    sourceSets["iosX64Main"].dependsOn(sourceSets["iosMain"])
-
-
 }
 
 android {
