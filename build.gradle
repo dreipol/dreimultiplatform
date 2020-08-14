@@ -99,7 +99,7 @@ android {
             matchingFallbacks = ['release']
         }
         release {
-            minifyEnabled false
+            minifyEnabled true
         }
     }
 }
