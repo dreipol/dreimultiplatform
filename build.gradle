@@ -49,20 +49,15 @@ kotlin {
 
 
     sourceSets["commonMain"].dependencies {
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.3.8")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
         api("org.reduxkotlin:redux-kotlin:0.5.3")
     }
 
     sourceSets["androidMain"].dependencies {
-        implementation("org.jetbrains.kotlin:kotlin-stdlib")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.8")
         implementation("androidx.appcompat:appcompat:1.1.0")
     }
 
     sourceSets["iosMain"].dependencies {
-        implementation("org.jetbrains.kotlin:kotlin-stdlib")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.5-native-mt")
     }
 }
 
