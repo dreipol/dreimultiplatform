@@ -37,25 +37,9 @@ group = "ch.dreipol"
 
 
 kotlin {
-    Properties properties = new Properties()
-    File localProperties = new File(rootProject.projectDir.absolutePath + '/local.properties')
-    String isIosDev = null
-    if (localProperties.exists()) {
-        properties.load(localProperties.newDataInputStream())
-        isIosDev = properties.getProperty('dev.ios')
-    }
-    if (isIosDev != null) {
-        String sdkName =  System.getenv("SDK_NAME")
-        if (sdkName != null && sdkName.startsWith("iphoneos")) {
-            iosArm64("ios")
-        } else {
-            iosX64("ios")
-        }
-    } else {
-        ios("ios") {
-            binaries {
-                framework()
-            }
+    ios("ios") {
+        binaries {
+            framework()
         }
     }
 
