@@ -1,5 +1,7 @@
 package ch.dreipol.dreimultiplatform.reduxkotlin
 
+import org.reduxkotlin.Selector
+import org.reduxkotlin.SelectorSubscriberBuilder
 import org.reduxkotlin.Store
 import org.reduxkotlin.StoreSubscriber
 
