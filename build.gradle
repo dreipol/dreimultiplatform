@@ -22,7 +22,7 @@ plugins {
     id("org.jetbrains.kotlin.multiplatform")
     id("maven-publish")
 }
-// apply plugin: "org.jlleitschuh.gradle.ktlint"
+apply plugin: "org.jlleitschuh.gradle.ktlint"
 
 
 allprojects {
@@ -55,7 +55,7 @@ kotlin {
     }
 
     sourceSets["androidMain"].dependencies {
-        implementation("androidx.appcompat:appcompat:1.1.0")
+        implementation("androidx.appcompat:appcompat:1.2.0")
     }
 
     sourceSets["iosMain"].dependencies {
@@ -90,7 +90,15 @@ configurations {
     compileClasspath
 }
 
-// tasks["build"].dependsOn("ktlintFormat")
+ktlint {
+    ignoreFailures.set(false)
+    filter {
+        exclude { element -> element.file.path.contains("generated/") }
+        exclude { element -> element.file.path.contains("reduxkotlin/") }
+    }
+}
+
+tasks["build"].dependsOn("ktlintFormat")
 
 publishing {
     repositories {
