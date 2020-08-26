@@ -15,13 +15,9 @@ jobs:
 
       - name: Publish artifact
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-        # The GITHUB_REF tag comes in the format 'refs/tags/xxx'.
-        # If we split on '/' and take the 3rd value,
-        # we can get the release name.
+          BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
+          BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
         run: |
           GIT_HASH=$(git rev-parse --short "$GITHUB_SHA")
           echo "Version: ${GIT_HASH}"
-          echo "Github username: ${GITHUB_ACTOR}"
           ./gradlew -Pversion=${GIT_HASH} publish
