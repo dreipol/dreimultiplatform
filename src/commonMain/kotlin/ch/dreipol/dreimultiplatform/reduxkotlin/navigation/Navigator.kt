@@ -11,9 +11,8 @@ interface Navigator<RootState : Any> {
     fun getNavigationState(): NavigationState
 }
 
-fun Navigator.subscribeNavigationState() {
-    val subscriber: StoreSubscriber = store.select({ getNavigationState() }) {
+fun Navigator<*>.subscribeNavigationState() {
+    store.selectFixed({ getNavigationState() }) {
         updateNavigationState(getNavigationState())
     }
-    store.subscribe(subscriber)
 }
