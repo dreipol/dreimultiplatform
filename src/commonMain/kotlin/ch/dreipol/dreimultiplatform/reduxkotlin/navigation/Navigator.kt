@@ -11,8 +11,8 @@ interface Navigator<RootState : Any> {
     fun getNavigationState(): NavigationState
 }
 
-fun Navigator<*>.subscribeNavigationState() {
-    store.selectFixed({ getNavigationState() }) {
+fun Navigator<*>.subscribeNavigationState(): StoreSubscriber {
+    return store.selectFixed({ getNavigationState() }) {
         updateNavigationState(getNavigationState())
     }
 }
