@@ -1,4 +1,3 @@
 package ch.dreipol.dreimultiplatform
 
-interface ProguardKeep {
-}
+interface ProguardKeep
