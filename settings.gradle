@@ -5,7 +5,7 @@ pluginManagement {
                 useModule("com.android.tools.build:gradle:4.1.0")
             }
             if (requested.id.id.startsWith("org.jetbrains.kotlin")) {
-                useModule("${requested.id.id}:${requested.id.id}.gradle.plugin:${requested.version}")
+                useModule("${requested.id.id}:${requested.id.id}.gradle.plugin:1.4.10")
             }
             if (requested.id.id == "kotlinx-serialization") {
                 useModule("org.jetbrains.kotlin:kotlin-serialization:${requested.version}")
