@@ -9,9 +9,9 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:4.1.0")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10")
-        classpath("org.jlleitschuh.gradle:ktlint-gradle:9.3.0")
+        classpath("com.android.tools.build:gradle:$versions_android_gradle_plugin")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$versions_kotlin")
+        classpath("org.jlleitschuh.gradle:ktlint-gradle:$versions_linter")
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -49,15 +49,15 @@ kotlin {
 
 
     sourceSets["commonMain"].dependencies {
-        api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1-native-mt")
-        api("org.reduxkotlin:redux-kotlin-threadsafe:0.5.5")
-        api("org.reduxkotlin:reselect:0.5.5")
-        api "org.reduxkotlin:redux-kotlin-thunk:0.5.5"
-        api("co.touchlab:kermit:0.1.7-1.4.0-rc")
+        api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions_coroutines")
+        api("org.reduxkotlin:redux-kotlin-threadsafe:$versions_redux_kotlin")
+        api("org.reduxkotlin:reselect:$versions_redux_kotlin")
+        api "org.reduxkotlin:redux-kotlin-thunk:$versions_redux_kotlin"
+        api("co.touchlab:kermit:$versions_kermit")
     }
 
     sourceSets["androidMain"].dependencies {
-        implementation("androidx.appcompat:appcompat:1.2.0")
+        implementation("androidx.appcompat:appcompat:$versions_app_compat")
     }
 
     sourceSets["iosMain"].dependencies {
