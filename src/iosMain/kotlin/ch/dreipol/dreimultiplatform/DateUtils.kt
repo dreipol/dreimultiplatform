@@ -16,5 +16,10 @@ actual fun getLocalizedMonthName(month: Int): String {
 
 actual fun getLocalizedDayShort(day: Int): String {
     val calendar = NSCalendar.autoupdatingCurrentCalendar
+    return calendar.shortWeekdaySymbols[day] as? String ?: ""
+}
+
+actual fun getLocalizedDay(day: Int): String {
+    val calendar = NSCalendar.autoupdatingCurrentCalendar
     return  calendar.weekdaySymbols[day] as? String ?: ""
 }
