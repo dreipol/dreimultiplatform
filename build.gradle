@@ -49,7 +49,7 @@ kotlin {
 
 
     sourceSets["commonMain"].dependencies {
-        api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.0")
+        api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1-native-mt")
         api("org.reduxkotlin:redux-kotlin-threadsafe:0.5.5")
         api("org.reduxkotlin:reselect:0.5.5")
         api "org.reduxkotlin:redux-kotlin-thunk:0.5.5"
