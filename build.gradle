@@ -58,6 +58,8 @@ kotlin {
 
     sourceSets["androidMain"].dependencies {
         implementation("androidx.appcompat:appcompat:$versions_app_compat")
+        implementation("com.google.android.play:core:$versions_play_core")
+        implementation("com.google.android.play:core-ktx:$versions_play_core_ktx")
     }
 
     sourceSets["iosMain"].dependencies {
