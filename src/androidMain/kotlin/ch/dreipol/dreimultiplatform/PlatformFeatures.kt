@@ -18,5 +18,4 @@ actual class PlatformFeatures {
     fun init(activity: Activity) {
         this.activity = activity
     }
-
 }

@@ -20,4 +20,3 @@ private fun isoWeekDayToJavaIndex(isoWeekDay: Int): Int {
     }
     return isoWeekDay + 1
 }
-

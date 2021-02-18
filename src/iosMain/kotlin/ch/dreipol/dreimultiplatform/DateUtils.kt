@@ -21,5 +21,5 @@ actual fun getLocalizedDayShort(day: Int): String {
 
 actual fun getLocalizedDay(day: Int): String {
     val calendar = NSCalendar.autoupdatingCurrentCalendar
-    return  calendar.weekdaySymbols[day] as? String ?: ""
+    return calendar.weekdaySymbols[day] as? String ?: ""
 }

@@ -7,5 +7,4 @@ actual class PlatformFeatures {
     actual fun showRatingDialog() {
         SKStoreReviewController.requestReview()
     }
-
 }
