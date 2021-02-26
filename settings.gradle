@@ -2,10 +2,10 @@ pluginManagement {
     resolutionStrategy {
         eachPlugin {
             if (requested.id.namespace == "com.android") {
-                useModule("com.android.tools.build:gradle:4.1.0")
+                useModule("com.android.tools.build:gradle:4.1.2")
             }
             if (requested.id.id.startsWith("org.jetbrains.kotlin")) {
-                useModule("${requested.id.id}:${requested.id.id}.gradle.plugin:1.4.10")
+                useModule("${requested.id.id}:${requested.id.id}.gradle.plugin:1.4.31")
             }
             if (requested.id.id == "kotlinx-serialization") {
                 useModule("org.jetbrains.kotlin:kotlin-serialization:${requested.version}")
