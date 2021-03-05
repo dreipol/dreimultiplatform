@@ -177,9 +177,17 @@ publishing {
 
             maven {
                 url !version.contains("SNAPSHOT") ? releaseUrl : snapshotUrl
+                def nexusUsername = ""
+                if (project.hasProperty('nexusUsername')) {
+                    nexusUsername = project.getProperty('nexusUsername')
+                }
+                def nexusPassword = ""
+                if (project.hasProperty('nexusPassword')) {
+                    nexusPassword = project.getProperty('nexusPassword')
+                }
                 credentials {
-                    username "$nexusUsername"
-                    password "$nexusPassword"
+                    username nexusUsername
+                    password nexusPassword
                 }
             }
         }
