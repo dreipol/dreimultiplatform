@@ -12,15 +12,13 @@ jobs:
     steps:
       - name: Checkout latest code
         uses: actions/checkout@v1
-      - name: Extract gpg key
-        env:
-          GPG_KEY: ${{ secrets.GPG_KEY }}
-        run: echo "$GPG_KEY" > ./secret-keys.gpg
       - name: Extract secret properties
         env:
           SECRET_PROPERTIES: ${{ secrets.SECRET_PROPERTIES }}
         run: echo "$SECRET_PROPERTIES" >> ./gradle.properties
       - name: Publish artifacts
+        env:
+          PGP_KEY: ${{ secrets.PGP_KEY }}
         run: |
           version=${GITHUB_REF/refs\/tags\//}
           echo "Version: $version"
