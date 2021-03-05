@@ -13,6 +13,7 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$versions_kotlin")
         classpath("org.jlleitschuh.gradle:ktlint-gradle:$versions_linter")
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$versions_dokka"
+        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:$versions_nexus_staging"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -26,6 +27,7 @@ plugins {
 }
 apply plugin: "org.jlleitschuh.gradle.ktlint"
 apply plugin: "org.jetbrains.dokka"
+apply plugin: "io.codearte.nexus-staging"
 
 
 allprojects {
@@ -176,8 +178,8 @@ publishing {
             maven {
                 url !version.contains("SNAPSHOT") ? releaseUrl : snapshotUrl
                 credentials {
-                    username System.getenv('SONATYPE_USERNAME')
-                    password System.getenv('SONATYPE_PASSWORD')
+                    username "$nexusUsername"
+                    password "$nexusPassword"
                 }
             }
         }
@@ -185,5 +187,9 @@ publishing {
 
     signing {
         sign publishing.publications
+    }
+
+    nexusStaging {
+        serverUrl "https://s01.oss.sonatype.org/service/local"
     }
 }
