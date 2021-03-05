@@ -15,11 +15,11 @@ jobs:
       - name: Extract gpg key
         env:
           GPG_KEY: ${{ secrets.GPG_KEY }}
-        run: echo $GPG_KEY > ./secret-keys.gpg
+        run: echo "$GPG_KEY" > ./secret-keys.gpg
       - name: Extract secret properties
         env:
           SECRET_PROPERTIES: ${{ secrets.SECRET_PROPERTIES }}
-        run: echo $SECRET_PROPERTIES >> ./gradle.properties
+        run: echo "$SECRET_PROPERTIES" >> ./gradle.properties
       - name: Publish artifacts
         run: |
           version=${GITHUB_REF/refs\/tags\//}
