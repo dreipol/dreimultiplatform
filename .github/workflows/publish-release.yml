@@ -1,10 +1,8 @@
 name: Publish release
 
 on:
-  workflow_dispatch:
   push:
-    branches:
-      - develop
+    tags:
 
 jobs:
   publish-release:
@@ -13,12 +11,18 @@ jobs:
     steps:
       - name: Checkout latest code
         uses: actions/checkout@v1
-
-      - name: Publish artifact
+      - name: Extract gpg key
         env:
-          BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
-          BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
+          GPG_KEY: ${{ secrets.GPG_KEY }}
+        run: echo $GPG_KEY > secret-keys.gpg
+      - name: Extract secret properties
+        env:
+          SECRET_PROPERTIES: ${{ secrets.SECRET_PROPERTIES }}
+        run: echo $SECRET_PROPERTIES >> gradle.properties
+      - name: Publish artifacts
         run: |
-          GIT_HASH=$(git rev-parse --short "$GITHUB_SHA")
-          echo "Version: ${GIT_HASH}"
-          ./gradlew -Pversion=${GIT_HASH} publish
+          version=${GITHUB_REF/refs\/tags\//}
+          echo "Version: $version"
+          ./gradlew -Pversion=${version} publish
+      - name: Release and close repo
+        run: ./gradlew closeAndReleaseRepository
