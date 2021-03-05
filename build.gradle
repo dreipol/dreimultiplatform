@@ -194,7 +194,7 @@ publishing {
     }
 
     signing {
-        def signingKey = System.getProperty("PGP_KEY")
+        def signingKey = System.getenv("PGP_KEY")
         def signingPassword = ""
         if (project.hasProperty('signing.password')) {
             signingPassword = project.getProperty('signing.password')
