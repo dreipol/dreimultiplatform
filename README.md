@@ -39,11 +39,9 @@ if (localProperties.exists()) {
     }
 }
 ```
-* In your `build.gradle` add repository url for bintray
+* In your `build.gradle` add repository url for mavenCentral
 ```groovy
-maven {
-    url  "https://dl.bintray.com/dreipol/dreimultiplatform"
-}
+        mavenCentral()
 ```
 * In your `shared/build.gradle` add the dependency if the local property is set otherwise fetch from JitPack
 ```groovy
