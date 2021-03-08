@@ -12,6 +12,8 @@ buildscript {
         classpath("com.android.tools.build:gradle:${versions_android_gradle_plugin}")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$versions_kotlin")
         classpath("org.jlleitschuh.gradle:ktlint-gradle:$versions_linter")
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$versions_dokka"
+        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:$versions_nexus_staging"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -21,8 +23,11 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.multiplatform")
     id("maven-publish")
+    id("signing")
 }
 apply plugin: "org.jlleitschuh.gradle.ktlint"
+apply plugin: "org.jetbrains.dokka"
+apply plugin: "io.codearte.nexus-staging"
 
 
 allprojects {
@@ -56,7 +61,7 @@ kotlin {
     }
 
     sourceSets["androidMain"].dependencies {
-        implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions_kotlin"
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions_kotlin"
         implementation("androidx.appcompat:appcompat:$versions_app_compat")
         implementation("com.google.android.play:core:$versions_play_core")
         implementation("com.google.android.play:core-ktx:$versions_play_core_ktx")
@@ -110,17 +115,95 @@ ktlint {
 
 tasks["build"].dependsOn("ktlintFormat")
 
+task dokkaJavadocCommonJar(type: Jar, dependsOn: dokkaHtml, group: 'publishing') {
+    classifier('javadoc')
+    from "$buildDir/javadoc/common"
+}
+
 publishing {
-    repositories {
-        maven {
-            def user = 'dreipol'
-            def repo = 'dreimultiplatform'
-            def name = 'ch.dreipol.dreimultiplatform'
-            url = "https://api.bintray.com/maven/$user/$repo/$name/;publish=1"
-            credentials {
-                username = System.getenv("BINTRAY_USER")
-                password = System.getenv("BINTRAY_API_KEY")
+    publications.all { pub ->
+        pom.withXml {
+            def root = asNode()
+
+            root.children().last() + {
+                resolveStrategy = DELEGATE_FIRST
+
+                name 'dreimultiplatform'
+                description 'Shared Repository for KMM projects'
+                url 'https://github.com/dreipol/dreimultiplatform'
+                scm {
+                    url 'https://github.com/dreipol/dreimultiplatform'
+                    connection 'scm:https://github.com/dreipol/dreimultiplatform.git'
+                    developerConnection 'scm:git://github.com/dreipol/dreimultiplatform.git'
+                }
+                licenses {
+                    license {
+                        name 'The MIT License'
+                        url 'https://opensource.org/licenses/MIT'
+                        distribution 'repo'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'melbic'
+                        name 'Samuel Bichsel'
+                        email 'samuel.bichsel@dreipol.ch'
+                    }
+                    developer {
+                        id 'kaiwidmer'
+                        name 'Kai Widmer'
+                        email 'kai.widmer@dreipol.ch'
+                    }
+                    developer {
+                        id 'tschuls'
+                        name 'Julia Strasser'
+                        email 'julia.strasser@dreipol.ch'
+                    }
+                    developer {
+                        id 'Nils-Becker'
+                        name 'Nils Becker'
+                        email 'nils.becker@dreipol.ch'
+
+                    }
+                }
             }
         }
+
+        artifact dokkaJavadocCommonJar
+
+        repositories {
+            def releaseUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def snapshotUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots"
+
+            maven {
+                url !version.contains("SNAPSHOT") ? releaseUrl : snapshotUrl
+                def nexusUsername = ""
+                if (project.hasProperty('nexusUsername')) {
+                    nexusUsername = project.getProperty('nexusUsername')
+                }
+                def nexusPassword = ""
+                if (project.hasProperty('nexusPassword')) {
+                    nexusPassword = project.getProperty('nexusPassword')
+                }
+                credentials {
+                    username nexusUsername
+                    password nexusPassword
+                }
+            }
+        }
+    }
+
+    signing {
+        def signingKey = System.getenv("PGP_KEY")
+        def signingPassword = ""
+        if (project.hasProperty('signing.password')) {
+            signingPassword = project.getProperty('signing.password')
+        }
+        useInMemoryPgpKeys(signingKey, signingPassword)
+        sign publishing.publications
+    }
+
+    nexusStaging {
+        serverUrl "https://s01.oss.sonatype.org/service/local"
     }
 }

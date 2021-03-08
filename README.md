@@ -2,16 +2,19 @@
 Shared Repository for [KMM](https://kotlinlang.org/lp/mobile/) projects
 
 # use it in your KMM Project
-* In your `build.gradle` add repository url for bintray
+* In your `build.gradle` add maven central
 ```groovy
-maven {
-    url  "https://dl.bintray.com/dreipol/dreimultiplatform"
+allprojects {
+    repositories {
+        mavenCentral()
+        ...
+    }
 }
 ```
 * In your `shared/build.gradle` add the dependency
 ```groovy
 dependencies {
-    implementation "ch.dreipol:dreimultiplatform:<tag or latest commit-short on develop>"
+    implementation "ch.dreipol:dreimultiplatform:<version>"
 }
 ```
 * Sync your gradle project and you should be able to import packages from dreimultiplatform
