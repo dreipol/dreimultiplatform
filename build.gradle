@@ -169,27 +169,6 @@ publishing {
         }
 
         artifact dokkaJavadocCommonJar
-
-        repositories {
-            def releaseUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            def snapshotUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots"
-
-            maven {
-                url !version.contains("SNAPSHOT") ? releaseUrl : snapshotUrl
-                def nexusUsername = ""
-                if (project.hasProperty('nexusUsername')) {
-                    nexusUsername = project.getProperty('nexusUsername')
-                }
-                def nexusPassword = ""
-                if (project.hasProperty('nexusPassword')) {
-                    nexusPassword = project.getProperty('nexusPassword')
-                }
-                credentials {
-                    username nexusUsername
-                    password nexusPassword
-                }
-            }
-        }
     }
 
     signing {
@@ -203,9 +182,22 @@ publishing {
     }
 
     nexusPublishing {
+        def releaseUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+        def snapshotUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots"
+        def nexusUsername = ""
+        if (project.hasProperty('nexusUsername')) {
+            nexusUsername = project.getProperty('nexusUsername')
+        }
+        def nexusPassword = ""
+        if (project.hasProperty('nexusPassword')) {
+            nexusPassword = project.getProperty('nexusPassword')
+        }
         repositories {
             maven {
-                nexusUrl = uri("https://s01.oss.sonatype.org/service/local")
+                nexusUrl = uri(releaseUrl)
+                snapshotRepositoryUrl = uri(snapshotUrl)
+                username = nexusUsername
+                password = nexusPassword
             }
         }
     }
