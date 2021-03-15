@@ -13,17 +13,17 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$versions_kotlin")
         classpath("org.jlleitschuh.gradle:ktlint-gradle:$versions_linter")
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$versions_dokka"
-
+        classpath "io.github.gradle-nexus:publish-plugin:$versions_nexus_publish"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 }
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.multiplatform")
     id("maven-publish")
     id("signing")
-    id "io.github.gradle-nexus.publish-plugin" version "$versions_nexus_publish"
 }
 apply plugin: "org.jlleitschuh.gradle.ktlint"
 apply plugin: "org.jetbrains.dokka"
@@ -119,75 +119,78 @@ task dokkaJavadocCommonJar(type: Jar, dependsOn: dokkaHtml, group: 'publishing')
     from "$buildDir/javadoc/common"
 }
 
-publishing {
-    publications.all { pub ->
-        pom.withXml {
-            def root = asNode()
+if (project == project.rootProject) {
+    apply plugin:  "io.github.gradle-nexus.publish-plugin"
 
-            root.children().last() + {
-                resolveStrategy = DELEGATE_FIRST
+    publishing {
+        publications.all { pub ->
+            pom.withXml {
+                def root = asNode()
 
-                name 'dreimultiplatform'
-                description 'Shared Repository for KMM projects'
-                url 'https://github.com/dreipol/dreimultiplatform'
-                scm {
+                root.children().last() + {
+                    resolveStrategy = DELEGATE_FIRST
+
+                    name 'dreimultiplatform'
+                    description 'Shared Repository for KMM projects'
                     url 'https://github.com/dreipol/dreimultiplatform'
-                    connection 'scm:https://github.com/dreipol/dreimultiplatform.git'
-                    developerConnection 'scm:git://github.com/dreipol/dreimultiplatform.git'
-                }
-                licenses {
-                    license {
-                        name 'The MIT License'
-                        url 'https://opensource.org/licenses/MIT'
-                        distribution 'repo'
+                    scm {
+                        url 'https://github.com/dreipol/dreimultiplatform'
+                        connection 'scm:https://github.com/dreipol/dreimultiplatform.git'
+                        developerConnection 'scm:git://github.com/dreipol/dreimultiplatform.git'
                     }
-                }
-                developers {
-                    developer {
-                        id 'melbic'
-                        name 'Samuel Bichsel'
-                        email 'samuel.bichsel@dreipol.ch'
+                    licenses {
+                        license {
+                            name 'The MIT License'
+                            url 'https://opensource.org/licenses/MIT'
+                            distribution 'repo'
+                        }
                     }
-                    developer {
-                        id 'kaiwidmer'
-                        name 'Kai Widmer'
-                        email 'kai.widmer@dreipol.ch'
-                    }
-                    developer {
-                        id 'tschuls'
-                        name 'Julia Strasser'
-                        email 'julia.strasser@dreipol.ch'
-                    }
-                    developer {
-                        id 'Nils-Becker'
-                        name 'Nils Becker'
-                        email 'nils.becker@dreipol.ch'
+                    developers {
+                        developer {
+                            id 'melbic'
+                            name 'Samuel Bichsel'
+                            email 'samuel.bichsel@dreipol.ch'
+                        }
+                        developer {
+                            id 'kaiwidmer'
+                            name 'Kai Widmer'
+                            email 'kai.widmer@dreipol.ch'
+                        }
+                        developer {
+                            id 'tschuls'
+                            name 'Julia Strasser'
+                            email 'julia.strasser@dreipol.ch'
+                        }
+                        developer {
+                            id 'Nils-Becker'
+                            name 'Nils Becker'
+                            email 'nils.becker@dreipol.ch'
 
+                        }
                     }
                 }
             }
+
+            artifact dokkaJavadocCommonJar
         }
 
-        artifact dokkaJavadocCommonJar
-    }
-
-    signing {
-        def signingKey = System.getenv("PGP_KEY")
-        def signingPassword = ""
-        if (project.hasProperty('signing.password')) {
-            signingPassword = project.getProperty('signing.password')
+        signing {
+            def signingKey = System.getenv("PGP_KEY")
+            def signingPassword = ""
+            if (project.hasProperty('signing.password')) {
+                signingPassword = project.getProperty('signing.password')
+            }
+            useInMemoryPgpKeys(signingKey, signingPassword)
+            sign publishing.publications
         }
-        useInMemoryPgpKeys(signingKey, signingPassword)
-        sign publishing.publications
-    }
 
-    nexusPublishing {
-        repositories {
-            sonatype {
-                nexusUrl = uri("https://s01.oss.sonatype.org/service/local/")
-                snapshotRepositoryUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+        nexusPublishing {
+            repositories {
+                sonatype {
+                    nexusUrl = uri("https://s01.oss.sonatype.org/service/local/")
+                    snapshotRepositoryUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+                }
             }
         }
     }
-
 }
