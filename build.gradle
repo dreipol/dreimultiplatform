@@ -13,7 +13,6 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$versions_kotlin")
         classpath("org.jlleitschuh.gradle:ktlint-gradle:$versions_linter")
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$versions_dokka"
-        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:$versions_nexus_staging"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -24,10 +23,10 @@ plugins {
     id("org.jetbrains.kotlin.multiplatform")
     id("maven-publish")
     id("signing")
+    id "io.github.gradle-nexus.publish-plugin" version "$versions_nexus_publish"
 }
 apply plugin: "org.jlleitschuh.gradle.ktlint"
 apply plugin: "org.jetbrains.dokka"
-apply plugin: "io.codearte.nexus-staging"
 
 
 allprojects {
@@ -170,27 +169,6 @@ publishing {
         }
 
         artifact dokkaJavadocCommonJar
-
-        repositories {
-            def releaseUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            def snapshotUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots"
-
-            maven {
-                url !version.contains("SNAPSHOT") ? releaseUrl : snapshotUrl
-                def nexusUsername = ""
-                if (project.hasProperty('nexusUsername')) {
-                    nexusUsername = project.getProperty('nexusUsername')
-                }
-                def nexusPassword = ""
-                if (project.hasProperty('nexusPassword')) {
-                    nexusPassword = project.getProperty('nexusPassword')
-                }
-                credentials {
-                    username nexusUsername
-                    password nexusPassword
-                }
-            }
-        }
     }
 
     signing {
@@ -203,7 +181,13 @@ publishing {
         sign publishing.publications
     }
 
-    nexusStaging {
-        serverUrl "https://s01.oss.sonatype.org/service/local"
+    nexusPublishing {
+        repositories {
+            sonatype {
+                nexusUrl = uri("https://s01.oss.sonatype.org/service/local/")
+                snapshotRepositoryUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+            }
+        }
     }
+
 }

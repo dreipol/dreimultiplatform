@@ -22,6 +22,4 @@ jobs:
         run: |
           version=${GITHUB_REF/refs\/tags\//}
           echo "Version: $version"
-          ./gradlew -Pversion=${version} publish
-      - name: Release and close repo
-        run: ./gradlew closeAndReleaseRepository
+          ./gradlew -Pversion=${version} publish closeAndReleaseStagingRepository
