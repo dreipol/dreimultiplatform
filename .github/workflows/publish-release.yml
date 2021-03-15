@@ -24,4 +24,4 @@ jobs:
           echo "Version: $version"
           ./gradlew -Pversion=${version} publish
       - name: Release and close repo
-        run: ./gradlew closeAndReleaseRepository
+        run: ./gradlew closeAndReleaseStagingRepository
