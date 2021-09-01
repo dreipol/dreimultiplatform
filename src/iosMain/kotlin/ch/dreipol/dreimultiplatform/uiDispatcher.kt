@@ -1,8 +1,9 @@
 package ch.dreipol.dreimultiplatform
 
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Runnable
+import kotlinx.coroutines.*
+import platform.Foundation.NSLog
+import platform.UIKit.UIApplication
+import platform.UIKit.UIApplicationDelegateProtocol
 import platform.darwin.dispatch_async
 import platform.darwin.dispatch_get_main_queue
 import kotlin.coroutines.CoroutineContext
@@ -14,11 +15,32 @@ actual val defaultDispatcher: CoroutineContext
     get() = IosMainDispatcher
 
 /**
+ * Needs to be implemented by the app delegate!
+ */
+interface ExceptionLogger {
+    fun logException(message: String)
+}
+
+abstract class IosDispatcher: CoroutineDispatcher() {
+    fun runSafely(block: Runnable) {
+        try {
+            block.run()
+        } catch (t: Throwable) {
+            t.cause?.let {
+                val exceptionLogger = UIApplication.sharedApplication.delegate as? ExceptionLogger
+                exceptionLogger?.logException("Uncaught exception (dispatched using ${this::class.qualifiedName}): ${it.stackTraceToString()}")
+            }
+            throw t
+        }
+    }
+}
+
+/**
  * iOS doesn't have a default UI thread dispatcher like [Dispatchers.Main], so we have to implement it ourself.
  */
-private object IosMainDispatcher : CoroutineDispatcher() {
+private object IosMainDispatcher : IosDispatcher() {
 
     override fun dispatch(context: CoroutineContext, block: Runnable) {
-        dispatch_async(dispatch_get_main_queue()) { block.run() }
+        dispatch_async(dispatch_get_main_queue()) { runSafely(block) }
     }
 }
