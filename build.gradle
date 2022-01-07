@@ -60,7 +60,7 @@ kotlin {
     }
 
     sourceSets["androidMain"].dependencies {
-        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions_kotlin"
+        implementation "org.jetbrains.kotlin:kotlin-stdlib:$versions_kotlin"
         implementation("androidx.appcompat:appcompat:$versions_app_compat")
         implementation("com.google.android.play:core:$versions_play_core")
         implementation("com.google.android.play:core-ktx:$versions_play_core_ktx")
@@ -77,8 +77,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     sourceSets {
