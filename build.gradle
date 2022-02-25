@@ -53,6 +53,7 @@ kotlin {
 
     sourceSets["commonMain"].dependencies {
         api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions_coroutines")
+        implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetime_version")
         api("org.reduxkotlin:redux-kotlin-threadsafe:$versions_redux_kotlin")
         api("org.reduxkotlin:reselect:$versions_redux_kotlin")
         api "org.reduxkotlin:redux-kotlin-thunk:$versions_redux_kotlin"
@@ -64,6 +65,7 @@ kotlin {
         implementation("androidx.appcompat:appcompat:$versions_app_compat")
         implementation("com.google.android.play:core:$versions_play_core")
         implementation("com.google.android.play:core-ktx:$versions_play_core_ktx")
+        api("org.jetbrains.kotlinx:kotlinx-datetime:$datetime_version")
     }
 
     sourceSets["iosMain"].dependencies {
