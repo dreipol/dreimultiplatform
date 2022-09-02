@@ -8,3 +8,6 @@ actual val uiDispatcher: CoroutineContext
 
 actual val defaultDispatcher: CoroutineContext
     get() = Dispatchers.Default
+
+actual val ioDispatcher: CoroutineContext
+    get() = Dispatchers.IO
