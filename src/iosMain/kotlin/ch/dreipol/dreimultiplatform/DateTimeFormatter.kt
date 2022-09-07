@@ -26,5 +26,4 @@ actual class DateTimeFormatter(private val formatter: NSDateFormatter) {
         val nsDate = NSCalendar.currentCalendar.dateFromComponents(components) ?: throw IllegalArgumentException()
         return formatter.stringFromDate(nsDate)
     }
-
 }

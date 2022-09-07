@@ -7,3 +7,7 @@ import kotlinx.coroutines.runBlocking
 actual fun launchAndWait(block: suspend () -> Unit) {
     runBlocking { GlobalScope.launch { block.invoke() }.join() }
 }
+
+actual fun <T : Any> T.freezeInstance(): T {
+    return this
+}

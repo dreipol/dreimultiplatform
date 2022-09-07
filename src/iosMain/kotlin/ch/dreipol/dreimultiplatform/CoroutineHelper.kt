@@ -3,7 +3,12 @@ package ch.dreipol.dreimultiplatform
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlin.native.concurrent.freeze
 
 actual fun launchAndWait(block: suspend () -> Unit) {
     runBlocking { GlobalScope.launch { block.invoke() }.join() }
+}
+
+actual fun <T : Any> T.freezeInstance(): T {
+    return this.freeze()
 }

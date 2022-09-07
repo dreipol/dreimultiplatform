@@ -1,5 +1,6 @@
 package ch.dreipol.dreimultiplatform.reduxkotlin
 
+import ch.dreipol.dreimultiplatform.uiDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.reduxkotlin.*
@@ -113,9 +114,9 @@ private fun <State> presenterMiddleware(uiContext: CoroutineContext): Middleware
         { action: Any ->
             @Suppress("UNCHECKED_CAST")
             when (action) {
-                is AttachView -> attachView(action.view as ViewWithProvider<State>)
-                is DetachView -> detachView(action.view as ViewWithProvider<State>)
-                is ClearView -> clearView(action.view as ViewWithProvider<State>)
+                is AttachView -> uiScope.launch { attachView(action.view as ViewWithProvider<State>) }
+                is DetachView -> uiScope.launch { detachView(action.view as ViewWithProvider<State>) }
+                is ClearView -> uiScope.launch { clearView(action.view as ViewWithProvider<State>) }
                 else -> next(action)
             }
         }

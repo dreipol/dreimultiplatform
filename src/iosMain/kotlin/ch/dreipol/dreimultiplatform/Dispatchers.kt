@@ -56,6 +56,7 @@ private object IosMainDispatcher : IosDispatcher() {
 
 private object IosUserInitiatedDispatcher : CoroutineDispatcher() {
     override fun dispatch(context: CoroutineContext, block: Runnable) {
+        block.freezeInstance()
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED.convert(), 0.convert()), block::run)
     }
 }
