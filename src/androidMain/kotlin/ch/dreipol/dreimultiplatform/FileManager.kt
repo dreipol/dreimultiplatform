@@ -12,3 +12,6 @@ actual object FileManager {
 
     actual fun byteArrayFrom(file: FileHandle): ByteArray? = file.readBytes()
 }
+
+actual val FileHandle.fileName: String?
+    get() = this.name

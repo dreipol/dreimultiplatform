@@ -7,6 +7,10 @@ actual data class FileHandle(val url: NSURL)
 actual fun FileHandle.appendingPathComponent(component: String): FileHandle? =
     url.URLByAppendingPathComponent(component)?.let { FileHandle(it) }
 
+actual val FileHandle.fileName: String?
+    get() = url.lastPathComponent
+
+
 actual object FileManager {
     actual fun stringFrom(file: FileHandle): String? =
         NSString.stringWithContentsOfURL(file.url, NSUTF8StringEncoding, null)
