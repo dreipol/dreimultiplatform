@@ -20,6 +20,6 @@ fun ByteArray.toNSData(): NSData = memScoped {
     return NSData.create(bytes = allocArrayOf(this@toNSData), length = size.toULong())
 }
 
-//    fun base64ToByteArray(base64String: String): ByteArray {
-//        return dataToByteArray(NSData.create(base64Encoding = base64String) ?: throw IllegalArgumentException())
-//    }
+fun base64StringToByteArray(base64String: String): ByteArray {
+    return NSData.create(base64Encoding = base64String)?.toByteArray() ?: throw IllegalArgumentException()
+}

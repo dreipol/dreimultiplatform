@@ -2,7 +2,7 @@ pluginManagement {
     resolutionStrategy {
         eachPlugin {
             if (requested.id.namespace == "com.android") {
-                useModule("com.android.tools.build:gradle:4.1.2")
+                useModule("com.android.tools.build:gradle:${versions_android_gradle_plugin}")
             }
             if (requested.id.id.startsWith("org.jetbrains.kotlin")) {
                 useModule("${requested.id.id}:${requested.id.id}.gradle.plugin:${versions_kotlin}")
