@@ -1,11 +1,11 @@
 package ch.dreipol.dreimultiplatform
 
-expect class FileHandle
+expect class FileIdentifier
 
-expect fun FileHandle.appendingPathComponent(component: String): FileHandle?
-expect val FileHandle.fileName: String?
+expect fun FileIdentifier.appendingPathComponent(component: String): FileIdentifier?
+expect val FileIdentifier.fileName: String?
 
 expect object FileManager {
-    fun stringFrom(file: FileHandle): String?
-    fun byteArrayFrom(file: FileHandle): ByteArray?
+    fun stringFrom(file: FileIdentifier): String?
+    fun byteArrayFrom(file: FileIdentifier): ByteArray?
 }

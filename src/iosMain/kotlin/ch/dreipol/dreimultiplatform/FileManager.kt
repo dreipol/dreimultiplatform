@@ -2,20 +2,20 @@ package ch.dreipol.dreimultiplatform
 
 import platform.Foundation.*
 
-actual data class FileHandle(val url: NSURL)
+actual data class FileIdentifier(val url: NSURL)
 
-actual fun FileHandle.appendingPathComponent(component: String): FileHandle? =
-    url.URLByAppendingPathComponent(component)?.let { FileHandle(it) }
+actual fun FileIdentifier.appendingPathComponent(component: String): FileIdentifier? =
+    url.URLByAppendingPathComponent(component)?.let { FileIdentifier(it) }
 
-actual val FileHandle.fileName: String?
+actual val FileIdentifier.fileName: String?
     get() = url.lastPathComponent
 
 
 actual object FileManager {
-    actual fun stringFrom(file: FileHandle): String? =
+    actual fun stringFrom(file: FileIdentifier): String? =
         NSString.stringWithContentsOfURL(file.url, NSUTF8StringEncoding, null)
 
-    actual fun byteArrayFrom(file: FileHandle): ByteArray? =
+    actual fun byteArrayFrom(file: FileIdentifier): ByteArray? =
         NSData.dataWithContentsOfURL(file.url)?.toByteArray()
 
 }

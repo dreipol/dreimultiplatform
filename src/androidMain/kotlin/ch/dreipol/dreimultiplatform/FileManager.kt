@@ -2,16 +2,16 @@ package ch.dreipol.dreimultiplatform
 
 import java.io.File
 
-actual typealias FileHandle = File
+actual typealias FileIdentifier = File
 
-actual fun FileHandle.appendingPathComponent(component: String): FileHandle? =
+actual fun FileIdentifier.appendingPathComponent(component: String): FileIdentifier? =
     File(this, component)
 
 actual object FileManager {
-    actual fun stringFrom(file: FileHandle): String? = file.readText()
+    actual fun stringFrom(file: FileIdentifier): String? = file.readText()
 
-    actual fun byteArrayFrom(file: FileHandle): ByteArray? = file.readBytes()
+    actual fun byteArrayFrom(file: FileIdentifier): ByteArray? = file.readBytes()
 }
 
-actual val FileHandle.fileName: String?
+actual val FileIdentifier.fileName: String?
     get() = this.name
