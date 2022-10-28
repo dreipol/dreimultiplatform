@@ -6,5 +6,5 @@ fun navigateBack(state: NavigationState): NavigationState {
         return state
     }
     screens.removeAt(screens.lastIndex)
-    return state.copy(screens = screens, navigationDirection = NavigationDirection.POP)
+    return state.copy(screens = screens)
 }
