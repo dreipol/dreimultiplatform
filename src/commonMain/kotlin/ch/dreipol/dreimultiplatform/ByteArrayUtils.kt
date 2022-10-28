@@ -1,4 +1,4 @@
 package ch.dreipol.dreimultiplatform
 
 
-fun ByteArray.toHex(): String = joinToString(separator = " ") { it.hex() }
+fun ByteArray.hex(): String = joinToString(separator = " ") { it.hex() }
