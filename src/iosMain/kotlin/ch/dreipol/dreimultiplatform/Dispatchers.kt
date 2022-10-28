@@ -5,20 +5,39 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Runnable
 import platform.UIKit.UIApplication
-import platform.darwin.dispatch_async
-import platform.darwin.dispatch_get_global_queue
-import platform.darwin.dispatch_get_main_queue
-import platform.posix.QOS_CLASS_USER_INITIATED
+import platform.darwin.*
+import platform.posix.*
 import kotlin.coroutines.CoroutineContext
 
 actual val uiDispatcher: CoroutineContext
-    get() = IosMainDispatcher
+    get() = MainDispatcher
 
 actual val defaultDispatcher: CoroutineContext
-    get() = IosMainDispatcher
+    get() = MainDispatcher
 
 actual val ioDispatcher: CoroutineContext
-    get() = IosUserInitiatedDispatcher
+    get() = QoSDispatcher(iOSDispatchQueue.QoSClass.USER_INITIATED)
+
+
+object iOSDispatchQueue {
+    enum class QoSClass(val value: UInt) {
+        USER_INTERACTIVE(QOS_CLASS_USER_INTERACTIVE),
+        USER_INITIATED(QOS_CLASS_USER_INITIATED),
+        DEFAULT(QOS_CLASS_DEFAULT),
+        UTILITY(QOS_CLASS_UTILITY),
+        BACKGROUND(QOS_CLASS_BACKGROUND),
+        UNSPECIFIED(QOS_CLASS_UNSPECIFIED)
+    }
+
+    fun global(qos: QoSClass): dispatch_queue_global_t {
+        return dispatch_get_global_queue(qos.value.convert(), 0.convert())
+    }
+
+    fun main(): dispatch_queue_main_t {
+        return dispatch_get_main_queue()
+    }
+}
+
 
 /**
  * Needs to be implemented by the app delegate!
@@ -47,15 +66,15 @@ abstract class IosDispatcher : CoroutineDispatcher() {
 /**
  * iOS doesn't have a default UI thread dispatcher like [Dispatchers.Main], so we have to implement it ourself.
  */
-private object IosMainDispatcher : IosDispatcher() {
+private object MainDispatcher : IosDispatcher() {
 
     override fun dispatch(context: CoroutineContext, block: Runnable) {
-        dispatch_async(dispatch_get_main_queue()) { runSafely(block) }
+        dispatch_async(iOSDispatchQueue.main()) { runSafely(block) }
     }
 }
 
-private object IosUserInitiatedDispatcher : CoroutineDispatcher() {
+private class QoSDispatcher(val qoSClass: iOSDispatchQueue.QoSClass) : IosDispatcher() {
     override fun dispatch(context: CoroutineContext, block: Runnable) {
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED.convert(), 0.convert()), block::run)
+        dispatch_async(iOSDispatchQueue.global(qoSClass), block::run)
     }
 }
