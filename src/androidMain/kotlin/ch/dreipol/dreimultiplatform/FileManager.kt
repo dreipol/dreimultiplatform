@@ -4,6 +4,9 @@ import java.io.File
 
 actual typealias FileIdentifier = File
 
+actual val FileIdentifier.filePath: String?
+    get() = this.path
+
 actual fun FileIdentifier.appendingPathComponent(component: String): FileIdentifier? =
     File(this, component)
 

@@ -11,6 +11,10 @@ actual val FileIdentifier.fileName: String?
     get() = url.lastPathComponent
 
 
+actual val FileIdentifier.filePath: String?
+    get() = this.url.path
+
+
 actual object FileManager {
     actual fun stringFrom(file: FileIdentifier): String? =
         NSString.stringWithContentsOfURL(file.url, NSUTF8StringEncoding, null)
