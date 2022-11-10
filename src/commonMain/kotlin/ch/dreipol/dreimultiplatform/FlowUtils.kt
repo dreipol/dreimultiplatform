@@ -24,3 +24,7 @@ fun <T> Flow<T>.throttle(duration: Duration): Flow<T> = flow {
             }
         }
 }
+
+expect class FlowRepresentation<T>
+
+expect fun <T> Flow<T>.toRepresentation(): FlowRepresentation<T>
