@@ -17,6 +17,8 @@ import platform.Foundation.dataWithContentsOfURL
 import platform.Foundation.lastPathComponent
 import platform.Foundation.stringWithContentsOfURL
 
+typealias ErrorPointer = CPointer<ObjCObjectVar<NSError?>>
+
 actual data class FileIdentifier(val url: NSURL)
 
 actual fun FileIdentifier.appendingPathComponent(component: String): FileIdentifier? =
@@ -28,19 +30,6 @@ actual val FileIdentifier.fileName: String?
 
 actual val FileIdentifier.filePath: String?
     get() = this.url.path
-
-typealias ErrorPointer = CPointer<ObjCObjectVar<NSError?>>
-
-private fun <R> fileManagerWithException(block: (fileManager: NSFileManager, errorPtr: ErrorPointer) -> R): R = memScoped {
-    val errorPtr: ObjCObjectVar<NSError?> = alloc()
-    val fileManager = NSFileManager.defaultManager
-    val blockResult = block(fileManager, errorPtr.ptr)
-    val error = errorPtr.value
-    if (error != null) {
-        throw FileError(error.localizedDescription)
-    }
-    blockResult
-}
 
 actual fun FileIdentifier.createDirectoriesIfNotExists() {
     fileManagerWithException { fileManager, errorPtr ->
@@ -67,11 +56,23 @@ actual fun FileIdentifier.files(): List<FileIdentifier> = fileManagerWithExcepti
     )?.filterIsInstance<NSURL>() as List<NSURL>
 }.map { FileIdentifier(it) }
 
+fun NSURL.toFileIdentifier(): FileIdentifier = FileIdentifier(this)
+
 actual object FileManager {
     actual fun stringFrom(file: FileIdentifier): String? =
         NSString.stringWithContentsOfURL(file.url, NSUTF8StringEncoding, null)
 
     actual fun byteArrayFrom(file: FileIdentifier): ByteArray? =
         NSData.dataWithContentsOfURL(file.url)?.toByteArray()
+}
 
+public fun <R> fileManagerWithException(block: (fileManager: NSFileManager, errorPtr: ErrorPointer) -> R): R = memScoped {
+    val errorPtr: ObjCObjectVar<NSError?> = alloc()
+    val fileManager = NSFileManager.defaultManager
+    val blockResult = block(fileManager, errorPtr.ptr)
+    val error = errorPtr.value
+    if (error != null) {
+        throw FileError(error.localizedDescription)
+    }
+    blockResult
 }
