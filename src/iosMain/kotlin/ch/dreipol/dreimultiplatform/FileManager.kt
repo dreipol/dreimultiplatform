@@ -38,7 +38,8 @@ actual fun FileIdentifier.createDirectoriesIfNotExists() {
 }
 
 actual fun FileIdentifier.exists(): Boolean {
-    return filePath != null && NSFileManager.defaultManager.fileExistsAtPath(filePath!!)
+    val path = filePath
+    return path != null && NSFileManager.defaultManager.fileExistsAtPath(path)
 }
 
 actual fun FileIdentifier.delete() {
@@ -66,7 +67,7 @@ actual object FileManager {
         NSData.dataWithContentsOfURL(file.url)?.toByteArray()
 }
 
-public fun <R> fileManagerWithException(block: (fileManager: NSFileManager, errorPtr: ErrorPointer) -> R): R = memScoped {
+fun <R> fileManagerWithException(block: (fileManager: NSFileManager, errorPtr: ErrorPointer) -> R): R = memScoped {
     val errorPtr: ObjCObjectVar<NSError?> = alloc()
     val fileManager = NSFileManager.defaultManager
     val blockResult = block(fileManager, errorPtr.ptr)
