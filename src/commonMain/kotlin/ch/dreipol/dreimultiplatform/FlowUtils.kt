@@ -12,13 +12,14 @@ fun <T> Sequence<T>.onFirst(action: (T) -> Unit): Sequence<T> = onEachIndexed { 
     }
 }
 
-fun <T> Flow<T>.throttle(duration: Duration): Flow<T> = flow {
-    var lastEvent: Long = 0
+fun <T> Flow<T>.throttle(duration: Duration): Flow<T> = throttleForce(duration) { false }
 
-    this@throttle
+fun <T> Flow<T>.throttleForce(duration: Duration, force: ((T) -> Boolean)): Flow<T> = flow {
+    var lastEvent: Long = 0
+    this@throttleForce
         .cancellable()
         .collect {
-            if ((Timing.nanoTime() - lastEvent).nanoseconds >= duration) {
+            if ((Timing.nanoTime() - lastEvent).nanoseconds >= duration || force(it)) {
                 lastEvent = Timing.nanoTime()
                 emit(it)
             }
