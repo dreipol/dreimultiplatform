@@ -44,7 +44,11 @@ kotlin {
             framework()
         }
     }
-
+    iosSimulatorArm64("iosSimulatorArm64") {
+        binaries {
+            framework()
+        }
+    }
     android("android") {
         publishAllLibraryVariants()
     }
@@ -52,9 +56,7 @@ kotlin {
     sourceSets["commonMain"].dependencies {
         api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions_coroutines")
         implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetime_version")
-        api("org.reduxkotlin:redux-kotlin-threadsafe:$versions_redux_kotlin")
-        api("org.reduxkotlin:reselect:$versions_redux_kotlin")
-        api "org.reduxkotlin:redux-kotlin-thunk:$versions_redux_kotlin"
+        api("com.1gravity:redux-kotlin-threadsafe:$versions_redux_kotlin")
         api("co.touchlab:kermit:$versions_kermit")
     }
 
@@ -120,7 +122,7 @@ task dokkaJavadocCommonJar(type: Jar, dependsOn: dokkaHtml, group: 'publishing')
 }
 
 if (project == project.rootProject) {
-    apply plugin:  "io.github.gradle-nexus.publish-plugin"
+    apply plugin: "io.github.gradle-nexus.publish-plugin"
 
     publishing {
         publications.all { pub ->
