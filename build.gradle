@@ -70,6 +70,8 @@ kotlin {
 
     sourceSets["iosMain"].dependencies {
     }
+
+    sourceSets["iosSimulatorArm64Main"].dependsOn(sourceSets["iosMain"])
 }
 
 android {

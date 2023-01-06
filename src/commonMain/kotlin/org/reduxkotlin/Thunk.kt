@@ -4,7 +4,7 @@ package org.reduxkotlin
 typealias Thunk<State> = (dispatch: Dispatcher, getState: GetState<State>, extraArg: Any?) -> Any
 typealias ThunkMiddleware<State> = Middleware<State>
 
-fun <State> ThunkMiddleware<State>.withExtraArgument(arg: Any?) = createThunkMiddleware<State>(arg)
+//fun <State> ThunkMiddleware<State>.withExtraArgument(arg: Any?) = createThunkMiddleware<State>(arg)
 
 fun <State> createThunkMiddleware(extraArgument: Any? = null): ThunkMiddleware<State> =
     { store ->
