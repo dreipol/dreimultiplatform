@@ -56,7 +56,7 @@ kotlin {
     sourceSets["commonMain"].dependencies {
         api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions_coroutines")
         implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetime_version")
-        api("com.1gravity:redux-kotlin-threadsafe:$versions_redux_kotlin")
+        api("org.reduxkotlin:redux-kotlin-threadsafe:$versions_redux_kotlin")
         api("co.touchlab:kermit:$versions_kermit")
     }
 
