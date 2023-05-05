@@ -166,9 +166,9 @@ if (project == project.rootProject) {
                             email 'julia.strasser@dreipol.ch'
                         }
                         developer {
-                            id 'Nils-Becker'
-                            name 'Nils Becker'
-                            email 'nils.becker@dreipol.ch'
+                            id 'lailabecker'
+                            name 'Laila Becker'
+                            email 'laila.becker@dreipol.ch'
 
                         }
                     }
