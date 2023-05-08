@@ -26,6 +26,6 @@ fun <T> Flow<T>.throttleForce(duration: Duration, force: ((T) -> Boolean)): Flow
         }
 }
 
-expect class FlowRepresentation<T>
+expect class FlowRepresentation<T: Any>
 
-expect fun <T> Flow<T>.toRepresentation(): FlowRepresentation<T>
+expect fun <T: Any> Flow<T>.toRepresentation(): FlowRepresentation<T>

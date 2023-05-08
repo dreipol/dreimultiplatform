@@ -8,9 +8,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlin.coroutines.CoroutineContext
 
-actual class FlowRepresentation<T>(private val flow: Flow<T>) {
+actual class FlowRepresentation<T: Any>(private val flow: Flow<T>) {
     fun subscribe(
-        onEach: (item: Any?) -> Unit, // The Swift 5.8 compiler cannot compile calls to subscribe if it's generic...
+        onEach: (item: T) -> Unit, // The Swift 5.8 compiler cannot compile calls to subscribe if it's generic...
         onComplete: () -> Unit,
         onThrow: (error: Throwable) -> Unit,
         dispatcher: CoroutineContext
@@ -30,10 +30,17 @@ actual class FlowRepresentation<T>(private val flow: Flow<T>) {
     }
 
     fun subscribe(
-        onEach: (item: Any?) -> Unit, // The Swift 5.8 compiler cannot compile calls to subscribe if it's generic...
+        onEach: (item: T) -> Unit,
         onComplete: () -> Unit,
         onThrow: (error: Throwable) -> Unit
     ): Job = subscribe(onEach, onComplete, onThrow, ioDispatcher)
+
+    // The Swift 5.8 compiler cannot compile calls to subscribe if it's generic...
+    fun subscribe58(
+        onEach: (item: Any) -> Unit,
+        onComplete: () -> Unit,
+        onThrow: (error: Throwable) -> Unit
+    ): Job = subscribe({ onEach(it) }, onComplete, onThrow, ioDispatcher)
 }
 
-actual fun <T> Flow<T>.toRepresentation(): FlowRepresentation<T> = FlowRepresentation(this)
+actual fun <T: Any> Flow<T>.toRepresentation(): FlowRepresentation<T> = FlowRepresentation(this)
