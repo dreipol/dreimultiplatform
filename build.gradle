@@ -44,7 +44,11 @@ kotlin {
             framework()
         }
     }
-
+    iosSimulatorArm64("iosSimulatorArm64") {
+        binaries {
+            framework()
+        }
+    }
     android("android") {
         publishAllLibraryVariants()
     }
@@ -53,8 +57,7 @@ kotlin {
         api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions_coroutines")
         implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetime_version")
         api("org.reduxkotlin:redux-kotlin-threadsafe:$versions_redux_kotlin")
-        api("org.reduxkotlin:reselect:$versions_redux_kotlin")
-        api "org.reduxkotlin:redux-kotlin-thunk:$versions_redux_kotlin"
+        api("org.reduxkotlin:redux-kotlin-thunk:$versions_redux_kotlin")
         api("co.touchlab:kermit:$versions_kermit")
     }
 
@@ -68,6 +71,8 @@ kotlin {
 
     sourceSets["iosMain"].dependencies {
     }
+
+    sourceSets["iosSimulatorArm64Main"].dependsOn(sourceSets["iosMain"])
 }
 
 android {
@@ -120,7 +125,7 @@ task dokkaJavadocCommonJar(type: Jar, dependsOn: dokkaHtml, group: 'publishing')
 }
 
 if (project == project.rootProject) {
-    apply plugin:  "io.github.gradle-nexus.publish-plugin"
+    apply plugin: "io.github.gradle-nexus.publish-plugin"
 
     publishing {
         publications.all { pub ->
@@ -162,9 +167,9 @@ if (project == project.rootProject) {
                             email 'julia.strasser@dreipol.ch'
                         }
                         developer {
-                            id 'Nils-Becker'
-                            name 'Nils Becker'
-                            email 'nils.becker@dreipol.ch'
+                            id 'lailabecker'
+                            name 'Laila Becker'
+                            email 'laila.becker@dreipol.ch'
 
                         }
                     }
