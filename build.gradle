@@ -62,6 +62,10 @@ kotlin {
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$json_serialization_version")
     }
 
+    sourceSets["commonTest"].dependencies {
+        implementation(kotlin('test'))
+    }
+
     sourceSets["androidMain"].dependencies {
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$versions_kotlin"
         implementation("androidx.appcompat:appcompat:$versions_app_compat")
