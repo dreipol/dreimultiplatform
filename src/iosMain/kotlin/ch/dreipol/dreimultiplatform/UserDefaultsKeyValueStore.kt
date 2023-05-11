@@ -2,7 +2,8 @@ package ch.dreipol.dreimultiplatform
 
 import platform.Foundation.NSUserDefaults
 
-data class UserDefaultsKeyValueStore(val userDefaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()) : PersistentKeyValueStore {
+data class UserDefaultsKeyValueStore(val userDefaults: NSUserDefaults) : PersistentKeyValueStore {
+    constructor(): this(NSUserDefaults.standardUserDefaults())
 
     override fun storeString(string: String, forKey: String) {
         userDefaults.setObject(string, forKey)
