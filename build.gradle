@@ -59,6 +59,7 @@ kotlin {
         api("org.reduxkotlin:redux-kotlin-threadsafe:$versions_redux_kotlin")
         api("org.reduxkotlin:redux-kotlin-thunk:$versions_redux_kotlin")
         api("co.touchlab:kermit:$versions_kermit")
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$json_serialization_version")
     }
 
     sourceSets["androidMain"].dependencies {
