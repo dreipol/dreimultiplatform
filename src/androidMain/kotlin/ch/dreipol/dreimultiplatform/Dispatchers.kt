@@ -1,5 +1,6 @@
 package ch.dreipol.dreimultiplatform
 
+import android.os.Looper
 import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext
 
@@ -11,3 +12,8 @@ actual val defaultDispatcher: CoroutineContext
 
 actual val ioDispatcher: CoroutineContext
     get() = Dispatchers.IO
+
+actual object ThreadUtils {
+    actual val isOnMainThread: Boolean
+        get() = Looper.myLooper() == Looper.getMainLooper()
+}
