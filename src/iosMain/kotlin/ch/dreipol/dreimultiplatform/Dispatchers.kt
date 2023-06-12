@@ -4,6 +4,7 @@ import kotlinx.cinterop.convert
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Runnable
+import platform.Foundation.NSThread
 import platform.UIKit.UIApplication
 import platform.darwin.*
 import platform.posix.*
@@ -77,4 +78,9 @@ private class QoSDispatcher(val qoSClass: iOSDispatchQueue.QoSClass) : IosDispat
     override fun dispatch(context: CoroutineContext, block: Runnable) {
         dispatch_async(iOSDispatchQueue.global(qoSClass), block::run)
     }
+}
+
+actual object ThreadUtils {
+    actual val isOnMainThread: Boolean
+        get() = NSThread.isMainThread
 }

@@ -1,5 +1,6 @@
 package ch.dreipol.dreimultiplatform.reduxkotlin
 
+import ch.dreipol.dreimultiplatform.ThreadUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.reduxkotlin.Middleware
@@ -9,11 +10,15 @@ import kotlin.coroutines.CoroutineContext
 /*
  * Middleware that moves rest of the middleware/reducer chain to a coroutine using the given context.
  */
-fun <State> coroutineMiddleware(context: CoroutineContext): Middleware<State> {
+fun <State> coroutineMiddleware(context: CoroutineContext, checkMainThread: Boolean = false): Middleware<State> {
     val scope = CoroutineScope(context)
     return middleware { _, next, action ->
-        scope.launch {
+        if (checkMainThread && ThreadUtils.isOnMainThread) {
             next(action)
+        } else {
+            scope.launch {
+                next(action)
+            }
         }
     }
 }

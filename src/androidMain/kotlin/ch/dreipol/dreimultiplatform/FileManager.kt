@@ -40,6 +40,8 @@ actual fun FileIdentifier.files(): List<FileIdentifier> {
     return Files.list(toPath()).map { it.toFile() }.toList()
 }
 
+actual fun String.toFileIdentifier(): FileIdentifier? =
+    File(this)
 
 actual object FileManager {
     actual fun stringFrom(file: FileIdentifier): String? = file.readText()

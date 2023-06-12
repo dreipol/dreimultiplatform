@@ -57,6 +57,9 @@ actual fun FileIdentifier.files(): List<FileIdentifier> = fileManagerWithExcepti
     )?.filterIsInstance<NSURL>() as List<NSURL>
 }.map { FileIdentifier(it) }
 
+actual fun String.toFileIdentifier(): FileIdentifier? =
+    NSURL.fileURLWithPath(this).toFileIdentifier()
+
 fun NSURL.toFileIdentifier(): FileIdentifier = FileIdentifier(this)
 
 actual object FileManager {
