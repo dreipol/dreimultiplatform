@@ -57,7 +57,7 @@ kotlin {
         api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions_coroutines")
         implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetime_version")
         api("org.reduxkotlin:redux-kotlin-threadsafe:$versions_redux_kotlin")
-        api("org.reduxkotlin:redux-kotlin-thunk:$versions_redux_kotlin")
+        api("org.reduxkotlin:redux-kotlin-thunk:$versions_redux_kotlin_thunk")
         api("co.touchlab:kermit:$versions_kermit")
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$json_serialization_version")
     }
@@ -81,14 +81,16 @@ kotlin {
 }
 
 android {
-    compileSdkVersion 30
+    namespace "ch.dreipol.dreimultiplatform"
+
+    compileSdkVersion 33
     defaultConfig {
         minSdkVersion 23
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     sourceSets {
@@ -125,8 +127,8 @@ ktlint {
 tasks["build"].dependsOn("ktlintFormat")
 
 task dokkaJavadocCommonJar(type: Jar, dependsOn: dokkaHtml, group: 'publishing') {
-    classifier('javadoc')
     from "$buildDir/javadoc/common"
+    archiveClassifier.set("javadoc")
 }
 
 if (project == project.rootProject) {
