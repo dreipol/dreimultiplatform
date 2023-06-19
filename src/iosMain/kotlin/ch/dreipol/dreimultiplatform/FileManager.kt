@@ -57,9 +57,6 @@ actual fun FileIdentifier.files(): List<FileIdentifier> = fileManagerWithExcepti
     )?.filterIsInstance<NSURL>() as List<NSURL>
 }.map { FileIdentifier(it) }
 
-actual fun String.toFileIdentifier(): FileIdentifier? =
-    NSURL.fileURLWithPath(this).toFileIdentifier()
-
 fun NSURL.toFileIdentifier(): FileIdentifier = FileIdentifier(this)
 
 actual object FileManager {
@@ -68,6 +65,9 @@ actual object FileManager {
 
     actual fun byteArrayFrom(file: FileIdentifier): ByteArray? =
         NSData.dataWithContentsOfURL(file.url)?.toByteArray()
+
+    actual fun fileIdentifierFromPath(path: String): FileIdentifier? =
+        NSURL.fileURLWithPath(path).toFileIdentifier()
 }
 
 fun <R> fileManagerWithException(block: (fileManager: NSFileManager, errorPtr: ErrorPointer) -> R): R = memScoped {
