@@ -5,7 +5,13 @@ package ch.dreipol.dreimultiplatform
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.cancellable
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
 import kotlin.coroutines.CoroutineContext
 
 actual class FlowRepresentation<T>(private val flow: Flow<T>) {
@@ -43,4 +49,4 @@ actual class FlowRepresentation<T>(private val flow: Flow<T>) {
     ): Job = subscribe({ onEach(it) }, onComplete, onThrow, ioDispatcher)
 }
 
-actual fun <T> Flow<T>.toRepresentation(): FlowRepresentation<T> = FlowRepresentation(this)
+actual fun <T> Flow<T>.toRepresentation(): FlowRepresentation<T> = FlowRepresentation(this.flowOn(uiDispatcher))

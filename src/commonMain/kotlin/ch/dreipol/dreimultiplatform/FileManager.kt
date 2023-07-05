@@ -11,12 +11,11 @@ expect fun FileIdentifier.exists(): Boolean
 expect fun FileIdentifier.delete()
 expect fun FileIdentifier.files(): List<FileIdentifier>
 
-expect fun String.toFileIdentifier(): FileIdentifier?
-
 class FileError(message: String) : Exception(message)
 
 expect object FileManager {
     fun stringFrom(file: FileIdentifier): String?
     fun byteArrayFrom(file: FileIdentifier): ByteArray?
+    fun fileIdentifierFromPath(path: String): FileIdentifier?
 }
 
