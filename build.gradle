@@ -39,6 +39,8 @@ group = "ch.dreipol"
 
 
 kotlin {
+    jvmToolchain(17)
+
     ios("ios") {
         binaries {
             framework()
@@ -50,6 +52,12 @@ kotlin {
         }
     }
     android("android") {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "11"
+            }
+        }
+
         publishAllLibraryVariants()
     }
 
