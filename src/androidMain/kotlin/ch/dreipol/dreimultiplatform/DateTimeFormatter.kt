@@ -18,7 +18,6 @@ actual class DateTimeFormatter(private val formatter: java.time.format.DateTimeF
             DateTimeFormatter(java.time.format.DateTimeFormatter.ofPattern(pattern))
     }
 
-
     actual fun format(date: LocalDate): String =
         formatter.format(date.toJavaLocalDate())
 
@@ -36,5 +35,4 @@ actual class DateTimeFormatter(private val formatter: java.time.format.DateTimeF
     actual fun parseTime(date: String): LocalTime {
         return java.time.LocalTime.parse(date, formatter).toKotlinLocalTime()
     }
-
 }

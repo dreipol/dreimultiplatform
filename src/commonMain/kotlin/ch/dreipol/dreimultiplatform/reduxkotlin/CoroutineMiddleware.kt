@@ -10,6 +10,7 @@ import kotlin.coroutines.CoroutineContext
 /*
  * Middleware that moves rest of the middleware/reducer chain to a coroutine using the given context.
  */
+@Deprecated("Use MainThreadStore instead")
 fun <State> coroutineMiddleware(context: CoroutineContext, checkMainThread: Boolean = false): Middleware<State> {
     val scope = CoroutineScope(context)
     return middleware { _, next, action ->
