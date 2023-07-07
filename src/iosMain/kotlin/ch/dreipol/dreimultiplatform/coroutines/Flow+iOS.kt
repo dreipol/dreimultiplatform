@@ -1,7 +1,7 @@
 // Based on https://johnoreilly.dev/posts/kotlinmultiplatform-swift-combine_publisher-flow/
 // See same link for implementation with Combine on iOS
 
-package ch.dreipol.dreimultiplatform
+package ch.dreipol.dreimultiplatform.coroutines
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job

@@ -1,4 +1,4 @@
-package ch.dreipol.dreimultiplatform
+package ch.dreipol.dreimultiplatform.datetime
 
 expect fun getLocalizedMonthName(month: Int): String
 

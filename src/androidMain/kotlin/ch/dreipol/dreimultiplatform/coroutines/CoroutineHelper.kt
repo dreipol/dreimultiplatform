@@ -1,4 +1,4 @@
-package ch.dreipol.dreimultiplatform
+package ch.dreipol.dreimultiplatform.coroutines
 
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

@@ -1,4 +1,4 @@
-package ch.dreipol.dreimultiplatform
+package ch.dreipol.dreimultiplatform.coroutines
 
 import android.os.Looper
 import kotlinx.coroutines.Dispatchers
