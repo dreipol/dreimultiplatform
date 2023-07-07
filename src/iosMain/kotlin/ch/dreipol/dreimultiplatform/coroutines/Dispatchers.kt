@@ -1,4 +1,4 @@
-package ch.dreipol.dreimultiplatform
+package ch.dreipol.dreimultiplatform.coroutines
 
 import kotlinx.cinterop.convert
 import kotlinx.coroutines.CoroutineDispatcher

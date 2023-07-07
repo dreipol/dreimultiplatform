@@ -1,4 +1,4 @@
-package ch.dreipol.dreimultiplatform
+package ch.dreipol.dreimultiplatform.datetime
 
 import java.text.DateFormatSymbols
 

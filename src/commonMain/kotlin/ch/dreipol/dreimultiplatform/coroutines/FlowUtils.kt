@@ -1,5 +1,6 @@
-package ch.dreipol.dreimultiplatform
+package ch.dreipol.dreimultiplatform.coroutines
 
+import ch.dreipol.dreimultiplatform.Timing
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.flow

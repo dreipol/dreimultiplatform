@@ -1,7 +1,7 @@
 package ch.dreipol.dreimultiplatform.reduxkotlin
 
-import ch.dreipol.dreimultiplatform.ThreadUtils
-import ch.dreipol.dreimultiplatform.uiDispatcher
+import ch.dreipol.dreimultiplatform.coroutines.ThreadUtils
+import ch.dreipol.dreimultiplatform.coroutines.uiDispatcher
 import kotlinx.coroutines.runBlocking
 import org.reduxkotlin.GetState
 import org.reduxkotlin.Store

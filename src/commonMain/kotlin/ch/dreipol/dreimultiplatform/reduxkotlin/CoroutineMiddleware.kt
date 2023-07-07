@@ -1,6 +1,6 @@
 package ch.dreipol.dreimultiplatform.reduxkotlin
 
-import ch.dreipol.dreimultiplatform.ThreadUtils
+import ch.dreipol.dreimultiplatform.coroutines.ThreadUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.reduxkotlin.Middleware

@@ -1,6 +1,6 @@
 package ch.dreipol.dreimultiplatform.reduxkotlin
 
-import ch.dreipol.dreimultiplatform.ioDispatcher
+import ch.dreipol.dreimultiplatform.coroutines.ioDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
