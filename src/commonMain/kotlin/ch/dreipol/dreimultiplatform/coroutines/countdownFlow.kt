@@ -13,3 +13,12 @@ fun countdownFlow(duration: Duration, period: Duration = 1.seconds) = flow {
         delay(period)
     }
 }
+
+fun countUpFlow(initial: Duration = 0.seconds, period: Duration = 1.seconds) = flow {
+    var current = initial
+    while (true) {
+        emit(current)
+        current += period
+        delay(period)
+    }
+}
