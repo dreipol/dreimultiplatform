@@ -11,8 +11,8 @@ buildscript {
         classpath("com.android.tools.build:gradle:$versions_android_gradle_plugin")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$versions_kotlin")
         classpath("org.jlleitschuh.gradle:ktlint-gradle:$versions_linter")
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:$versions_dokka")
-        classpath("io.github.gradle-nexus:publish-plugin:$versions_nexus_publish")
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$versions_dokka"
+        classpath "io.github.gradle-nexus:publish-plugin:$versions_nexus_publish"
     }
 }
 
@@ -202,15 +202,12 @@ if (project == project.rootProject) {
             sign publishing.publications
         }
 
-        // https://github.com/gradle-nexus/publish-plugin/issues/208
-        def signingTasks = tasks.withType(Sign)
-        tasks.withType(PublishToMavenRepository).configureEach {
-            it.mustRunAfter(signingTasks)
-        }
-
         nexusPublishing {
             repositories {
-                sonatype()
+                sonatype {
+                    nexusUrl = uri("https://s01.oss.sonatype.org/service/local/")
+                    snapshotRepositoryUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+                }
             }
         }
     }
