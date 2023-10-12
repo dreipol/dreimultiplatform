@@ -36,7 +36,9 @@ public class MainThreadStore<State, Action>(private val delegate: TypedStore<Sta
     override val store: Store<State> = delegate.store
 
     override val subscribe: (StoreSubscriber) -> StoreSubscription = { subscriber ->
-        runOnMainThread { delegate.subscribe(subscriber) }
+        val subscription = runOnMainThread { delegate.subscribe(subscriber) }
+        val onMainThread = { runOnMainThread { subscription() } }
+        onMainThread
     }
 
     private fun <T> runOnMainThread(block: () -> T): T =
