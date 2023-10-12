@@ -1,6 +1,6 @@
 package ch.dreipol.dreimultiplatform.reduxkotlin.navigation
 
-import ch.dreipol.dreimultiplatform.reduxkotlin.selectFixed
+import ch.dreipol.dreimultiplatform.reduxkotlin.subscribeChanges
 import org.reduxkotlin.Store
 import org.reduxkotlin.StoreSubscriber
 
@@ -11,7 +11,7 @@ interface Navigator<RootState : Any> {
 }
 
 fun <RootState : Any> Navigator<RootState>.subscribeNavigationState(): StoreSubscriber {
-    return store.selectFixed({ getNavigationState() }) {
+    return store.subscribeChanges({ getNavigationState() }) {
         updateNavigationState(getNavigationState())
     }
 }

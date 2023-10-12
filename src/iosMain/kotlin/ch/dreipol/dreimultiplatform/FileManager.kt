@@ -17,6 +17,7 @@ import platform.Foundation.dataWithContentsOfURL
 import platform.Foundation.lastPathComponent
 import platform.Foundation.stringWithContentsOfURL
 
+@kotlinx.cinterop.ExperimentalForeignApi
 typealias ErrorPointer = CPointer<ObjCObjectVar<NSError?>>
 
 actual data class FileIdentifier(val url: NSURL)
@@ -31,6 +32,7 @@ actual val FileIdentifier.fileName: String?
 actual val FileIdentifier.filePath: String?
     get() = this.url.path
 
+@OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
 actual fun FileIdentifier.createDirectoriesIfNotExists() {
     fileManagerWithException { fileManager, errorPtr ->
         fileManager.createDirectoryAtURL(url, withIntermediateDirectories = true, attributes = null, error = errorPtr)
@@ -42,24 +44,28 @@ actual fun FileIdentifier.exists(): Boolean {
     return path != null && NSFileManager.defaultManager.fileExistsAtPath(path)
 }
 
+@OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
 actual fun FileIdentifier.delete() {
     fileManagerWithException { fileManager, errorPtr ->
         fileManager.removeItemAtURL(url, error = errorPtr)
     }
 }
 
+@OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
 actual fun FileIdentifier.files(): List<FileIdentifier> = fileManagerWithException { fileManager, errorPtr ->
     fileManager.contentsOfDirectoryAtURL(
         url,
         error = errorPtr,
         includingPropertiesForKeys = null,
-        options = 0
+        options = 0u
     )?.filterIsInstance<NSURL>() as List<NSURL>
 }.map { FileIdentifier(it) }
 
 fun NSURL.toFileIdentifier(): FileIdentifier = FileIdentifier(this)
 
 actual object FileManager {
+
+    @OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
     actual fun stringFrom(file: FileIdentifier): String? =
         NSString.stringWithContentsOfURL(file.url, NSUTF8StringEncoding, null)
 
@@ -70,6 +76,7 @@ actual object FileManager {
         NSURL.fileURLWithPath(path).toFileIdentifier()
 }
 
+@OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
 fun <R> fileManagerWithException(block: (fileManager: NSFileManager, errorPtr: ErrorPointer) -> R): R = memScoped {
     val errorPtr: ObjCObjectVar<NSError?> = alloc()
     val fileManager = NSFileManager.defaultManager

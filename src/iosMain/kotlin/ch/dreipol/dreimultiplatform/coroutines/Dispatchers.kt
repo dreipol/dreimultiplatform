@@ -30,6 +30,7 @@ object iOSDispatchQueue {
         UNSPECIFIED(QOS_CLASS_UNSPECIFIED)
     }
 
+    @OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
     fun global(qos: QoSClass): dispatch_queue_global_t {
         return dispatch_get_global_queue(qos.value.convert(), 0.convert())
     }

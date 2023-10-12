@@ -8,6 +8,7 @@ import platform.Foundation.NSData
 import platform.Foundation.create
 import platform.posix.memcpy
 
+@OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
 fun NSData.toByteArray(): ByteArray {
     return ByteArray(length.toInt()).apply {
         usePinned {
@@ -16,6 +17,7 @@ fun NSData.toByteArray(): ByteArray {
     }
 }
 
+@OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
 fun ByteArray.toNSData(): NSData = memScoped {
     return NSData.create(bytes = allocArrayOf(this@toNSData), length = size.toULong())
 }
