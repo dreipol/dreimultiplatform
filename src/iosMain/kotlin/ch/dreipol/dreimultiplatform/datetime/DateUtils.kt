@@ -6,6 +6,7 @@ import platform.Foundation.*
 actual fun getLocalizedMonthName(month: Int): String {
     val calendar = NSCalendar.currentCalendar
     val dateComponents = calendar.components(NSCalendarUnitHour, fromDate = NSDate.date())
+    @OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
     dateComponents.setMonth(month.convert())
     val stringFormat = "MMMM"
     val format = NSDateFormatter()
