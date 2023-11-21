@@ -8,3 +8,5 @@ fun registerForKotlinExceptions(block: (Throwable, String) -> Unit) {
         block(it, it.stackTraceToString())
     }
 }
+
+fun getStackTrace(throwable: Throwable): String = throwable.stackTraceToString()
