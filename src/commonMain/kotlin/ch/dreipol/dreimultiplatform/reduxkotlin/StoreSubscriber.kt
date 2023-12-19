@@ -1,5 +1,8 @@
 package ch.dreipol.dreimultiplatform.reduxkotlin
 
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import org.reduxkotlin.Store
 import org.reduxkotlin.StoreSubscriber
 
@@ -10,6 +13,13 @@ fun <State : Any, T : Any?> Store<State>.subscribeChanges(selection: (State) -> 
     }
     onStateChanged()
     return subscribe(onStateChanged)
+}
+
+fun <State : Any, T : Any?> Store<State>.flowOf(selection: (State) -> T): Flow<T> = callbackFlow {
+    val cancelSubscription = subscribeChanges(selection = selection) { trySend(it) }
+    awaitClose {
+        cancelSubscription()
+    }
 }
 
 private fun <State : Any, T : Any?> Store<State>.select(selection: (State) -> T) = object : Selector<T> {
