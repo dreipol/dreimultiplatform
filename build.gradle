@@ -84,6 +84,9 @@ kotlin {
     }
 
     sourceSets["iosSimulatorArm64Main"].dependsOn(sourceSets["iosMain"])
+
+    //    TODO: Remove as soon as Android Studio (Iguana) is fixed
+    task("testClasses")
 }
 
 android {
