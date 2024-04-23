@@ -64,7 +64,7 @@ kotlin {
         implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetime_version")
         api("org.reduxkotlin:redux-kotlin-threadsafe:$versions_redux_kotlin")
         api("org.reduxkotlin:redux-kotlin-thunk:$versions_redux_kotlin_thunk")
-        implementation("co.touchlab:kermit:$versions_kermit")
+        api("co.touchlab:kermit:$versions_kermit")
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$json_serialization_version")
     }
 
@@ -78,7 +78,6 @@ kotlin {
         implementation("com.google.android.play:core:$versions_play_core")
         implementation("com.google.android.play:core-ktx:$versions_play_core_ktx")
         api("org.jetbrains.kotlinx:kotlinx-datetime:$datetime_version")
-        api("co.touchlab:kermit:$versions_kermit")
     }
 
     sourceSets["iosMain"].dependencies {
