@@ -39,52 +39,64 @@ group = "ch.dreipol"
 kotlin {
     jvmToolchain(17)
 
-    ios("ios") {
+    iosX64() {
         binaries {
             framework()
         }
     }
-    iosSimulatorArm64("iosSimulatorArm64") {
+
+    iosArm64() {
         binaries {
             framework()
         }
     }
-    android("android") {
-        compilations.all {
+
+    iosSimulatorArm64() {
+        binaries {
+            framework()
+        }
+    }
+
+    androidTarget {
+        compilations.configureEach {
             kotlinOptions {
-                jvmTarget = "11"
+                jvmTarget = 17
             }
         }
+    }
 
+    android() {
         publishAllLibraryVariants()
     }
 
-    sourceSets["commonMain"].dependencies {
-        api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions_coroutines")
-        implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetime_version")
-        api("org.reduxkotlin:redux-kotlin-threadsafe:$versions_redux_kotlin")
-        api("org.reduxkotlin:redux-kotlin-thunk:$versions_redux_kotlin_thunk")
-        api("co.touchlab:kermit:$versions_kermit")
-        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$json_serialization_version")
-    }
+    sourceSets {
+        commonMain.dependencies {
+            api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions_coroutines")
+            implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetime_version")
+            api("org.reduxkotlin:redux-kotlin-threadsafe:$versions_redux_kotlin")
+            api("org.reduxkotlin:redux-kotlin-thunk:$versions_redux_kotlin_thunk")
+            api("co.touchlab:kermit:$versions_kermit")
+            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$json_serialization_version")
+        }
 
-    sourceSets["commonTest"].dependencies {
-        implementation(kotlin('test'))
-    }
+        commonTest.dependencies {
+            implementation(kotlin('test'))
+        }
 
-    sourceSets["androidMain"].dependencies {
-        implementation "org.jetbrains.kotlin:kotlin-stdlib:$versions_kotlin"
-        implementation("androidx.appcompat:appcompat:$versions_app_compat")
-        implementation("com.google.android.play:core:$versions_play_core")
-        implementation("com.google.android.play:core-ktx:$versions_play_core_ktx")
-        api("org.jetbrains.kotlinx:kotlinx-datetime:$datetime_version")
-    }
+        androidMain.dependencies {
+            implementation "org.jetbrains.kotlin:kotlin-stdlib:$versions_kotlin"
+            implementation("androidx.appcompat:appcompat:$versions_app_compat")
+            implementation("com.google.android.play:review:2.0.3")
+            implementation("com.google.android.play:core-ktx:$versions_play_core_ktx")
+            api("org.jetbrains.kotlinx:kotlinx-datetime:$datetime_version")
+        }
 
-    sourceSets["iosMain"].dependencies {
-        api("co.touchlab:kermit-simple:$versions_kermit")
-    }
+        iosMain.dependencies {
+            api("co.touchlab:kermit-simple:$versions_kermit")
+        }
 
-    sourceSets["iosSimulatorArm64Main"].dependsOn(sourceSets["iosMain"])
+        iosSimulatorArm64Main.dependsOn(sourceSets["iosMain"])
+    }
 
     //    TODO: Remove as soon as Android Studio (Iguana) is fixed
     task("testClasses")
@@ -93,7 +105,7 @@ kotlin {
 android {
     namespace "ch.dreipol.dreimultiplatform"
 
-    compileSdkVersion 33
+    compileSdk 34
     defaultConfig {
         minSdkVersion 23
     }
