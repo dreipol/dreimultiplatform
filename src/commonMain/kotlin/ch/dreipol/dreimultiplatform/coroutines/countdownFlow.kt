@@ -6,7 +6,10 @@ import kotlinx.datetime.Clock
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
-fun countDownFlow(duration: Duration, period: Duration = 1.seconds) = flow {
+fun countDownFlow(
+    duration: Duration,
+    period: Duration = 1.seconds,
+) = flow {
     val delay = period.absoluteValue
     val start = Clock.System.now()
 
@@ -17,7 +20,10 @@ fun countDownFlow(duration: Duration, period: Duration = 1.seconds) = flow {
     }
 }
 
-fun countUpFlow(initial: Duration = 0.seconds, period: Duration = 1.seconds) = flow {
+fun countUpFlow(
+    initial: Duration = 0.seconds,
+    period: Duration = 1.seconds,
+) = flow {
     val delay = period.absoluteValue
     val start = Clock.System.now()
 

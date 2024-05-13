@@ -15,8 +15,7 @@ actual val FileIdentifier.fileName: String?
 actual val FileIdentifier.filePath: String?
     get() = this.path
 
-actual fun FileIdentifier.appendingPathComponent(component: String): FileIdentifier? =
-    File(this, component)
+actual fun FileIdentifier.appendingPathComponent(component: String): FileIdentifier? = File(this, component)
 
 @RequiresApi(Build.VERSION_CODES.O)
 actual fun FileIdentifier.createDirectoriesIfNotExists() {

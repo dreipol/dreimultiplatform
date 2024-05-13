@@ -4,7 +4,6 @@ import android.app.Activity
 import com.google.android.play.core.review.ReviewManagerFactory
 
 actual class PlatformFeatures {
-
     private lateinit var activity: Activity
 
     actual fun showRatingDialog() {

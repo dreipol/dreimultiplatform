@@ -5,4 +5,4 @@ import kotlinx.coroutines.Job
 
 /** A task that continues running while the app is in the background on iOS.
  */
-expect fun CoroutineScope.launchBackgroundTask(block: suspend CoroutineScope.() -> Unit) : Job
+expect fun CoroutineScope.launchBackgroundTask(block: suspend CoroutineScope.() -> Unit): Job

@@ -3,7 +3,6 @@ package ch.dreipol.dreimultiplatform
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
-import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toKotlinInstant
 import kotlinx.datetime.toKotlinTimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -33,18 +32,17 @@ actual class DateTimeFormatter(private val formatter: NSDateFormatter) {
     }
 
     actual fun parse(date: String): LocalDateTime {
-        return formatter.dateFromString(date)?.toKotlinInstant()?.toLocalDateTime(formatter.timeZone.toKotlinTimeZone()) ?:
-            throw IllegalArgumentException("Date $date could not be parsed.")
+        return formatter.dateFromString(date)?.toKotlinInstant()?.toLocalDateTime(formatter.timeZone.toKotlinTimeZone())
+            ?: throw IllegalArgumentException("Date $date could not be parsed.")
     }
 
     actual fun parseDate(date: String): LocalDate {
-        return formatter.dateFromString(date)?.toKotlinInstant()?.toLocalDateTime(formatter.timeZone.toKotlinTimeZone())?.date ?:
-            throw IllegalArgumentException("Date $date could not be parsed.")
+        return formatter.dateFromString(date)?.toKotlinInstant()?.toLocalDateTime(formatter.timeZone.toKotlinTimeZone())?.date
+            ?: throw IllegalArgumentException("Date $date could not be parsed.")
     }
 
     actual fun parseTime(date: String): LocalTime {
-        return formatter.dateFromString(date)?.toKotlinInstant()?.toLocalDateTime(formatter.timeZone.toKotlinTimeZone())?.time ?:
-            throw IllegalArgumentException("Date $date could not be parsed.")
+        return formatter.dateFromString(date)?.toKotlinInstant()?.toLocalDateTime(formatter.timeZone.toKotlinTimeZone())?.time
+            ?: throw IllegalArgumentException("Date $date could not be parsed.")
     }
-
 }
