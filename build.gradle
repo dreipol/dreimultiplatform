@@ -86,7 +86,7 @@ kotlin {
         androidMain.dependencies {
             implementation "org.jetbrains.kotlin:kotlin-stdlib:$versions_kotlin"
             implementation("androidx.appcompat:appcompat:$versions_app_compat")
-            implementation("com.google.android.play:review:2.0.3")
+            implementation("com.google.android.play:review:$versions_play_reviews")
             implementation("com.google.android.play:core-ktx:$versions_play_core_ktx")
             api("org.jetbrains.kotlinx:kotlinx-datetime:$datetime_version")
         }
