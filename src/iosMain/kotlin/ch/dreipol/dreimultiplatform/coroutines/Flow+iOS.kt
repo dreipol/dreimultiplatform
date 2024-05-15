@@ -19,7 +19,7 @@ actual class FlowRepresentation<T>(private val flow: Flow<T>) {
         onEach: (item: T) -> Unit, // The Swift 5.8 compiler cannot compile calls to subscribe if it's generic...
         onComplete: () -> Unit,
         onThrow: (error: Throwable) -> Unit,
-        dispatcher: CoroutineContext
+        dispatcher: CoroutineContext,
     ): Job {
         val job = Job()
         val scope = CoroutineScope(dispatcher + job)
@@ -38,14 +38,14 @@ actual class FlowRepresentation<T>(private val flow: Flow<T>) {
     fun subscribe(
         onEach: (item: T) -> Unit,
         onComplete: () -> Unit,
-        onThrow: (error: Throwable) -> Unit
+        onThrow: (error: Throwable) -> Unit,
     ): Job = subscribe(onEach, onComplete, onThrow, ioDispatcher)
 
     // The Swift 5.8 compiler cannot compile calls to subscribe if it's generic...
     fun subscribe58(
         onEach: (item: Any?) -> Unit,
         onComplete: () -> Unit,
-        onThrow: (error: Throwable) -> Unit
+        onThrow: (error: Throwable) -> Unit,
     ): Job = subscribe({ onEach(it) }, onComplete, onThrow, ioDispatcher)
 }
 

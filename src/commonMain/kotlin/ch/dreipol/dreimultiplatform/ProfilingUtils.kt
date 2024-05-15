@@ -29,7 +29,7 @@ class StatisticsCollector() {
         return Statistics(
             average = (results.sum().toDouble() / results.size).nanoseconds,
             median = results[results.size / 2].nanoseconds,
-            percentile95 = results[floor(results.size * 0.95).toInt()].nanoseconds
+            percentile95 = results[floor(results.size * 0.95).toInt()].nanoseconds,
         )
     }
 }

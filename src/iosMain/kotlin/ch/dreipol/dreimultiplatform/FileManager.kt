@@ -28,7 +28,6 @@ actual fun FileIdentifier.appendingPathComponent(component: String): FileIdentif
 actual val FileIdentifier.fileName: String?
     get() = url.lastPathComponent
 
-
 actual val FileIdentifier.filePath: String?
     get() = this.url.path
 
@@ -52,38 +51,36 @@ actual fun FileIdentifier.delete() {
 }
 
 @OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
-actual fun FileIdentifier.files(): List<FileIdentifier> = fileManagerWithException { fileManager, errorPtr ->
-    fileManager.contentsOfDirectoryAtURL(
-        url,
-        error = errorPtr,
-        includingPropertiesForKeys = null,
-        options = 0u
-    )?.filterIsInstance<NSURL>() as List<NSURL>
-}.map { FileIdentifier(it) }
+actual fun FileIdentifier.files(): List<FileIdentifier> =
+    fileManagerWithException { fileManager, errorPtr ->
+        fileManager.contentsOfDirectoryAtURL(
+            url,
+            error = errorPtr,
+            includingPropertiesForKeys = null,
+            options = 0u,
+        )?.filterIsInstance<NSURL>() as List<NSURL>
+    }.map { FileIdentifier(it) }
 
 fun NSURL.toFileIdentifier(): FileIdentifier = FileIdentifier(this)
 
 actual object FileManager {
-
     @OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
-    actual fun stringFrom(file: FileIdentifier): String? =
-        NSString.stringWithContentsOfURL(file.url, NSUTF8StringEncoding, null)
+    actual fun stringFrom(file: FileIdentifier): String? = NSString.stringWithContentsOfURL(file.url, NSUTF8StringEncoding, null)
 
-    actual fun byteArrayFrom(file: FileIdentifier): ByteArray? =
-        NSData.dataWithContentsOfURL(file.url)?.toByteArray()
+    actual fun byteArrayFrom(file: FileIdentifier): ByteArray? = NSData.dataWithContentsOfURL(file.url)?.toByteArray()
 
-    actual fun fileIdentifierFromPath(path: String): FileIdentifier? =
-        NSURL.fileURLWithPath(path).toFileIdentifier()
+    actual fun fileIdentifierFromPath(path: String): FileIdentifier? = NSURL.fileURLWithPath(path).toFileIdentifier()
 }
 
 @OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
-fun <R> fileManagerWithException(block: (fileManager: NSFileManager, errorPtr: ErrorPointer) -> R): R = memScoped {
-    val errorPtr: ObjCObjectVar<NSError?> = alloc()
-    val fileManager = NSFileManager.defaultManager
-    val blockResult = block(fileManager, errorPtr.ptr)
-    val error = errorPtr.value
-    if (error != null) {
-        throw FileError(error.localizedDescription)
+fun <R> fileManagerWithException(block: (fileManager: NSFileManager, errorPtr: ErrorPointer) -> R): R =
+    memScoped {
+        val errorPtr: ObjCObjectVar<NSError?> = alloc()
+        val fileManager = NSFileManager.defaultManager
+        val blockResult = block(fileManager, errorPtr.ptr)
+        val error = errorPtr.value
+        if (error != null) {
+            throw FileError(error.localizedDescription)
+        }
+        blockResult
     }
-    blockResult
-}

@@ -6,13 +6,15 @@ import co.touchlab.kermit.Severity
 
 class TagFilteredLogWriterDecorator private constructor(
     private val decorated: LogWriter,
-    private val filters: Map<String, Severity>
+    private val filters: Map<String, Severity>,
 ) : LogWriter() {
-
     data class Builder(val decorated: LogWriter) {
         private val filters: MutableMap<String, Severity> = mutableMapOf()
 
-        fun addFilter(logger: Logger, minSeverity: Severity) {
+        fun addFilter(
+            logger: Logger,
+            minSeverity: Severity,
+        ) {
             filters[logger.tag] = minSeverity
         }
 
@@ -21,7 +23,12 @@ class TagFilteredLogWriterDecorator private constructor(
         }
     }
 
-    override fun log(severity: Severity, message: String, tag: String, throwable: Throwable?) {
+    override fun log(
+        severity: Severity,
+        message: String,
+        tag: String,
+        throwable: Throwable?,
+    ) {
         val severityFilter = filters[tag]
         if (severityFilter == null || severityFilter <= severity) {
             decorated.log(severity, message, tag, throwable)

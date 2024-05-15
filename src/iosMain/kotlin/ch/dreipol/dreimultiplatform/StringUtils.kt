@@ -5,7 +5,10 @@ import platform.Foundation.NSString
 import platform.Foundation.stringWithFormat
 
 @OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
-actual fun formatString(string: String, args: List<String>): String {
+actual fun formatString(
+    string: String,
+    args: List<String>,
+): String {
     if (args.size > 2) {
         throw IllegalArgumentException("StringUtils::formatString: Supports only two arguments at the moment")
     }

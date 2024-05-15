@@ -1,18 +1,17 @@
 package ch.dreipol.dreimultiplatform
 
-import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class DateTimeFormatterTest {
-
     @Test
     fun testDateParsing() {
         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
         val date = "05.05.2023"
-        val expected = LocalDate(2023,5,5)
+        val expected = LocalDate(2023, 5, 5)
         val result = formatter.parseDate(date)
         assertEquals(expected, result)
     }
@@ -34,5 +33,4 @@ class DateTimeFormatterTest {
         val result = formatter.parseTime(date)
         assertEquals(expected, result)
     }
-
 }

@@ -14,15 +14,12 @@ import kotlinx.datetime.toKotlinLocalTime
 @RequiresApi(Build.VERSION_CODES.O)
 actual class DateTimeFormatter(private val formatter: java.time.format.DateTimeFormatter) {
     actual companion object {
-        actual fun ofPattern(pattern: String): DateTimeFormatter =
-            DateTimeFormatter(java.time.format.DateTimeFormatter.ofPattern(pattern))
+        actual fun ofPattern(pattern: String): DateTimeFormatter = DateTimeFormatter(java.time.format.DateTimeFormatter.ofPattern(pattern))
     }
 
-    actual fun format(date: LocalDate): String =
-        formatter.format(date.toJavaLocalDate())
+    actual fun format(date: LocalDate): String = formatter.format(date.toJavaLocalDate())
 
-    actual fun format(date: LocalDateTime): String =
-        formatter.format(date.toJavaLocalDateTime())
+    actual fun format(date: LocalDateTime): String = formatter.format(date.toJavaLocalDateTime())
 
     actual fun parse(date: String): LocalDateTime {
         return java.time.LocalDateTime.parse(date, formatter).toKotlinLocalDateTime()

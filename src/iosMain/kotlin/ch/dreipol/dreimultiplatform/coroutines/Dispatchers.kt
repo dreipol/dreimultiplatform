@@ -19,7 +19,6 @@ actual val defaultDispatcher: CoroutineContext
 actual val ioDispatcher: CoroutineContext
     get() = QoSDispatcher(iOSDispatchQueue.QoSClass.USER_INITIATED)
 
-
 object iOSDispatchQueue {
     enum class QoSClass(val value: UInt) {
         USER_INTERACTIVE(QOS_CLASS_USER_INTERACTIVE),
@@ -27,7 +26,7 @@ object iOSDispatchQueue {
         DEFAULT(QOS_CLASS_DEFAULT),
         UTILITY(QOS_CLASS_UTILITY),
         BACKGROUND(QOS_CLASS_BACKGROUND),
-        UNSPECIFIED(QOS_CLASS_UNSPECIFIED)
+        UNSPECIFIED(QOS_CLASS_UNSPECIFIED),
     }
 
     @OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
@@ -39,7 +38,6 @@ object iOSDispatchQueue {
         return dispatch_get_main_queue()
     }
 }
-
 
 /**
  * Needs to be implemented by the app delegate!
@@ -57,7 +55,7 @@ abstract class IosDispatcher : CoroutineDispatcher() {
                 val exceptionLogger = UIApplication.sharedApplication.delegate as? ExceptionLogger
                 exceptionLogger?.logException(
                     "Uncaught exception (dispatched using ${this::class.qualifiedName}): " +
-                        it.stackTraceToString()
+                        it.stackTraceToString(),
                 )
             }
             throw t
@@ -69,14 +67,19 @@ abstract class IosDispatcher : CoroutineDispatcher() {
  * iOS doesn't have a default UI thread dispatcher like [Dispatchers.Main], so we have to implement it ourself.
  */
 private object MainDispatcher : IosDispatcher() {
-
-    override fun dispatch(context: CoroutineContext, block: Runnable) {
+    override fun dispatch(
+        context: CoroutineContext,
+        block: Runnable,
+    ) {
         dispatch_async(iOSDispatchQueue.main()) { runSafely(block) }
     }
 }
 
 private class QoSDispatcher(val qoSClass: iOSDispatchQueue.QoSClass) : IosDispatcher() {
-    override fun dispatch(context: CoroutineContext, block: Runnable) {
+    override fun dispatch(
+        context: CoroutineContext,
+        block: Runnable,
+    ) {
         dispatch_async(iOSDispatchQueue.global(qoSClass), block::run)
     }
 }
