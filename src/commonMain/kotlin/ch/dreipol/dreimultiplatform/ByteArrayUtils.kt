@@ -3,7 +3,7 @@ package ch.dreipol.dreimultiplatform
 fun ByteArray.hex(): String = joinToString(separator = " ") { it.hex() }
 
 object ByteArrayUtils {
-    fun fromHexString(string: String): ByteArray {
+    fun fromHex(string: String): ByteArray {
         val sanitized = string.filter { !it.isWhitespace() }
         if (sanitized.length % 2 != 0) {
             throw IllegalArgumentException("The input string should have an even number of characters")
