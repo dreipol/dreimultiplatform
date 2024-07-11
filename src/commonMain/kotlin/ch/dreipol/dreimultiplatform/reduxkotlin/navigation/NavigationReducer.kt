@@ -1,13 +1,4 @@
 package ch.dreipol.dreimultiplatform.reduxkotlin.navigation
 
-fun navigateBack(state: NavigationState): NavigationState {
-    if (state.sheet != null) {
-        return state.copy(sheet = null)
-    }
-    val screens = state.screens.toMutableList()
-    if (screens.size == 1) {
-        return state
-    }
-    screens.removeAt(screens.lastIndex)
-    return state.copy(screens = screens, navigationDirection = NavigationDirection.POP)
-}
+fun <Screen> navigateBack(state: DirectionalNavigationState<Screen>): DirectionalNavigationState<Screen> =
+    state.copy(otherScreens = state.otherScreens.dropLast(1), navigationDirection = NavigationDirection.POP)
