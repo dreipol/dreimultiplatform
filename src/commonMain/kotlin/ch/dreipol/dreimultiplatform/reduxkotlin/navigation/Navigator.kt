@@ -12,7 +12,7 @@ interface Navigator<RootState : Any, NavigationState : AbstractNavigationState<*
 
 fun <
     RootState : Any,
-    NavigationState: AbstractNavigationState<*>
+    NavigationState : AbstractNavigationState<*>
     > Navigator<RootState, NavigationState>.subscribeNavigationState(): StoreSubscriber {
     return store.subscribeChanges({ getNavigationState() }) {
         updateNavigationState(getNavigationState())
