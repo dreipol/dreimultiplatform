@@ -2,9 +2,9 @@ package ch.dreipol.dreimultiplatform.reduxkotlin.navigation
 
 abstract class AbstractNavigationState<Screen> {
     abstract val homeScreen: Screen
-    abstract val otherScreens: List<Screen>
+    abstract val pushedScreens: List<Screen>
     val screens: List<Screen>
-        get() = listOf(homeScreen) + otherScreens
+        get() = listOf(homeScreen) + pushedScreens
 
     val currentScreen: Screen
         get() = screens.last()
@@ -19,6 +19,6 @@ enum class NavigationDirection {
 
 data class DirectionalNavigationState<Screen>(
     override val homeScreen: Screen,
-    override val otherScreens: List<Screen> = emptyList(),
+    override val pushedScreens: List<Screen> = emptyList(),
     val navigationDirection: NavigationDirection = NavigationDirection.POP,
 ) : AbstractNavigationState<Screen>()
