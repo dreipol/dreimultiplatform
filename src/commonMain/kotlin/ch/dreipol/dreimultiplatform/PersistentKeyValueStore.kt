@@ -1,5 +1,6 @@
 package ch.dreipol.dreimultiplatform
 
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -43,6 +44,7 @@ interface PersistentKeyValueStore {
     fun removeEntry(forKey: String)
 }
 
+@Throws(SerializationException::class, IllegalArgumentException::class)
 inline fun <reified T> PersistentKeyValueStore.storeSerializable(
     obj: T,
     forKey: String,
@@ -51,4 +53,8 @@ inline fun <reified T> PersistentKeyValueStore.storeSerializable(
     storeString(serialized, forKey)
 }
 
-inline fun <reified T> PersistentKeyValueStore.getSerializable(forKey: String): T? = getString(forKey)?.let { Json.decodeFromString(it) }
+inline fun <reified T> PersistentKeyValueStore.getSerializable(forKey: String): T? = getString(forKey)?.let {
+    runCatching {
+        Json.decodeFromString<T>(it)
+    }.getOrNull()
+}
