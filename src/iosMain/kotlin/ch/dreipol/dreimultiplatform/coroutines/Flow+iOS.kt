@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlin.coroutines.CoroutineContext
 
+@Deprecated("Use SKIE instead")
 actual class FlowRepresentation<T>(private val flow: Flow<T>) {
     fun subscribe(
         onEach: (item: T) -> Unit, // The Swift 5.8 compiler cannot compile calls to subscribe if it's generic...
@@ -49,4 +50,5 @@ actual class FlowRepresentation<T>(private val flow: Flow<T>) {
     ): Job = subscribe({ onEach(it) }, onComplete, onThrow, ioDispatcher)
 }
 
+@Deprecated("Use SKIE instead")
 actual fun <T> Flow<T>.toRepresentation(): FlowRepresentation<T> = FlowRepresentation(this.flowOn(uiDispatcher))
