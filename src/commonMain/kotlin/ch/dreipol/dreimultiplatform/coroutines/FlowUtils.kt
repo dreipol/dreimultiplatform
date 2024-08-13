@@ -32,6 +32,8 @@ fun <T> Flow<T>.throttleForce(
             }
     }
 
+@Deprecated("Use SKIE instead")
 expect class FlowRepresentation<T>
 
+@Deprecated("Use SKIE instead")
 expect fun <T> Flow<T>.toRepresentation(): FlowRepresentation<T>
