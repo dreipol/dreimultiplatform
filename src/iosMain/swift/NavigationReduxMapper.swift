@@ -10,7 +10,7 @@ import Foundation
 
 private extension Collection where Index: Strideable, Index.Stride: SignedInteger {
     func slidingPairs() -> some RandomAccessCollection<(Element, Element)> {
-        (startIndex ..< endIndex)
+        indices.dropLast()
             .map { i in
                 (self[i], self[index(after: i)])
             }
