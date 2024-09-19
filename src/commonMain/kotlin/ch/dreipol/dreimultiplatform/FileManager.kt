@@ -23,4 +23,8 @@ expect object FileManager {
     fun byteArrayFrom(file: FileIdentifier): ByteArray?
 
     fun fileIdentifierFromPath(path: String): FileIdentifier?
+
+    fun write(data: ByteArray, toFile: FileIdentifier, atomically: Boolean): Boolean
+
+    fun write(string: String, toFile: FileIdentifier, atomically: Boolean): Boolean
 }

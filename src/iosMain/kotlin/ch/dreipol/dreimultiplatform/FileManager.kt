@@ -6,16 +6,22 @@ import kotlinx.cinterop.alloc
 import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.ptr
 import kotlinx.cinterop.value
+import platform.Foundation.NSCachesDirectory
 import platform.Foundation.NSData
 import platform.Foundation.NSError
 import platform.Foundation.NSFileManager
+import platform.Foundation.NSSearchPathDirectory
+import platform.Foundation.NSSearchPathForDirectoriesInDomains
 import platform.Foundation.NSString
 import platform.Foundation.NSURL
 import platform.Foundation.NSUTF8StringEncoding
+import platform.Foundation.NSUserDomainMask
 import platform.Foundation.URLByAppendingPathComponent
 import platform.Foundation.dataWithContentsOfURL
 import platform.Foundation.lastPathComponent
 import platform.Foundation.stringWithContentsOfURL
+import platform.Foundation.stringWithString
+import platform.Foundation.writeToFile
 
 @kotlinx.cinterop.ExperimentalForeignApi
 typealias ErrorPointer = CPointer<ObjCObjectVar<NSError?>>
@@ -70,6 +76,15 @@ actual object FileManager {
     actual fun byteArrayFrom(file: FileIdentifier): ByteArray? = NSData.dataWithContentsOfURL(file.url)?.toByteArray()
 
     actual fun fileIdentifierFromPath(path: String): FileIdentifier? = NSURL.fileURLWithPath(path).toFileIdentifier()
+
+    actual fun write(data: ByteArray, toFile: FileIdentifier, atomically: Boolean): Boolean {
+        val path = toFile.filePath ?: return false
+        return data.toNSData().writeToFile(path, atomically)
+    }
+
+    @OptIn(ExperimentalStdlibApi::class)
+    actual fun write(string: String, toFile: FileIdentifier, atomically: Boolean): Boolean =
+        write(string.hexToByteArray(), toFile, atomically)
 }
 
 @OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
