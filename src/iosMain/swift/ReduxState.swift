@@ -39,6 +39,11 @@ public extension ReduxMapper where Value == SwiftValue {
 public struct ReduxStateGetter<Value: Equatable, SwiftValue>: ReduxGetter {
     public var mapper: (ApplicationState) -> Value
     public var swiftMapper: (Value) -> SwiftValue
+
+    public init(mapper: @escaping (ApplicationState) -> Value, swiftMapper: @escaping (Value) -> SwiftValue) {
+        self.mapper = mapper
+        self.swiftMapper = swiftMapper
+    }
 }
 
 public extension ReduxStateGetter where Value == SwiftValue {
