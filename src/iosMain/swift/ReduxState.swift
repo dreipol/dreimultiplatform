@@ -1,6 +1,6 @@
 //
 //  ReduxState.swift
-//  Barryvox
+//  dreimultiplatform
 //
 //  Created by Laila Becker on 01.11.22.
 //  Copyright © 2022 dreipol GmbH. All rights reserved.
@@ -60,7 +60,7 @@ public extension ReduxStateGetter where Value == SwiftValue {
     private var mapper: ReduxMapper<Value, SwiftValue>
     fileprivate var getter: ReduxMapper<Value, SwiftValue> { mapper }
 
-    @EnvironmentObject fileprivate var observableStore: ObservableStore
+    @Environment(\.reduxStore) fileprivate var store
     @Dispatch private var dispatch: Dispatcher
 
     @State fileprivate var currentValue: Value?
@@ -72,10 +72,10 @@ public extension ReduxStateGetter where Value == SwiftValue {
 
     public var wrappedValue: SwiftValue {
         get {
-            mapper.swiftMapper(currentValue ?? mapper.mapper(observableStore.store.applicationState))
+            mapper.swiftMapper(currentValue ?? mapper.mapper(store.applicationState))
         }
         nonmutating set {
-            mapper.action(dispatch, observableStore.store.applicationState, newValue)
+            mapper.action(dispatch, store.applicationState, newValue)
         }
     }
 
@@ -91,7 +91,7 @@ public extension ReduxStateGetter where Value == SwiftValue {
 @propertyWrapper public struct GetReduxState<Getter: ReduxGetter>: SubscribedProperty {
     fileprivate var getter: Getter
 
-    @EnvironmentObject fileprivate var observableStore: ObservableStore
+    @Environment(\.reduxStore) fileprivate var store
 
     @State fileprivate var currentValue: Getter.Value?
     fileprivate let subscriptionHolder: SubscriptionHolder = .init()
@@ -101,7 +101,7 @@ public extension ReduxStateGetter where Value == SwiftValue {
     }
 
     public var wrappedValue: Getter.SwiftValue {
-        getter.swiftMapper(currentValue ?? getter.mapper(observableStore.store.applicationState))
+        getter.swiftMapper(currentValue ?? getter.mapper(store.applicationState))
     }
 }
 
@@ -128,14 +128,14 @@ private protocol SubscribedProperty: DynamicProperty {
     associatedtype Getter: ReduxGetter
 
     var getter: Getter { get }
-    var observableStore: ObservableStore { get }
+    var store: TypedStore { get }
     var currentValue: Getter.Value? { get nonmutating set }
     var subscriptionHolder: SubscriptionHolder { get }
 }
 
 private extension SubscribedProperty {
     public func update() {
-        subscriptionHolder.subscribe(to: observableStore.store) { newState in
+        subscriptionHolder.subscribe(to: store) { newState in
             let newValue = getter.mapper(newState)
             if newValue != currentValue {
                 currentValue = newValue

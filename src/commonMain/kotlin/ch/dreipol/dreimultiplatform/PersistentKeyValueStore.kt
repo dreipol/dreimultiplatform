@@ -44,6 +44,48 @@ interface PersistentKeyValueStore {
     fun removeEntry(forKey: String)
 }
 
+class InMemoryKeyValueStore: PersistentKeyValueStore {
+    private val storage = mutableMapOf<String, Any>()
+    override fun storeString(string: String, forKey: String) {
+        storage[forKey] = string
+    }
+
+    override fun getString(forKey: String): String? =
+        storage[forKey] as? String
+
+    override fun storeBoolean(value: Boolean, forKey: String) {
+        storage[forKey] = value
+    }
+
+    override fun getBoolean(forKey: String): Boolean? =
+        storage[forKey] as? Boolean
+
+    override fun storeInt(value: Int, forKey: String) {
+        storage[forKey] = value
+    }
+
+    override fun getInt(forKey: String): Int? =
+        storage[forKey] as? Int
+
+    override fun storeLong(value: Long, forKey: String) {
+        storage[forKey] = value
+    }
+
+    override fun getLong(forKey: String): Long? =
+        storage[forKey] as? Long
+
+    override fun storeFloat(value: Float, forKey: String) {
+        storage[forKey] = value
+    }
+
+    override fun getFloat(forKey: String): Float? =
+        storage[forKey] as? Float
+
+    override fun removeEntry(forKey: String) {
+        storage.remove(forKey)
+    }
+}
+
 @Throws(SerializationException::class, IllegalArgumentException::class)
 inline fun <reified T> PersistentKeyValueStore.storeSerializable(
     obj: T,

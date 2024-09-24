@@ -1,6 +1,6 @@
 //
 //  Dispatch.swift
-//  Barryvox
+//  dreimultiplatform
 //
 //  Created by Laila Becker on 01.11.22.
 //  Copyright © 2022 dreipol GmbH. All rights reserved.
@@ -27,13 +27,13 @@ public struct Dispatcher {
 }
 
 @propertyWrapper public struct Dispatch: DynamicProperty {
-    @EnvironmentObject private var observableStore: ObservableStore
+    @Environment(\.reduxStore) private var store
 
     public init() {}
 
     public var wrappedValue: Dispatcher {
         return Dispatcher { action in
-            _ = observableStore.store.dispatch(action)
+            _ = store.dispatch(action)
         }
     }
 }

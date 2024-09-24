@@ -1,6 +1,6 @@
 //
 //  NavigationReduxMapper.swift
-//  Barryvox
+//  dreimultiplatform
 //
 //  Created by Laila Becker on 02.11.22.
 //  Copyright © 2022 dreipol GmbH. All rights reserved.

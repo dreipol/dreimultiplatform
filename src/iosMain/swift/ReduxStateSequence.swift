@@ -1,6 +1,6 @@
 //
 //  ReduxStateSequence.swift
-//  Vaduz
+//  dreimultiplatform
 //
 //  Created by Laila Becker on 19.06.2024.
 //  Copyright © 2024 dreipol GmbH. All rights reserved.
@@ -12,7 +12,7 @@ import SwiftUI
 public struct ReduxStateSequence<Getter: ReduxGetter>: DynamicProperty {
     nonisolated private let getter: Getter
 
-    @EnvironmentObject private var observableStore: ObservableStore
+    @Environment(\.reduxStore) private var store
 
     public init(_ getter: Getter) {
         self.getter = getter
@@ -22,7 +22,7 @@ public struct ReduxStateSequence<Getter: ReduxGetter>: DynamicProperty {
 //    @available(iOS 18, *)
 //    var wrappedValue: some AsyncSequence<Getter.SwiftValue, Never> {
     public var wrappedValue: AsyncMapSequence<SkieSwiftOptionalFlow<Any>, Getter.SwiftValue?> {
-        observableStore.store
+        store
             .flowOf {
                 // swiftlint:disable:next force_cast
                 let state = $0 as! ApplicationState
