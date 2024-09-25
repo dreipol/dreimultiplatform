@@ -106,21 +106,22 @@ public extension ReduxStateGetter where Value == SwiftValue {
 }
 
 private class SubscriptionHolder {
-    var subscription: (() -> KotlinUnit)?
+    var subscription: (() -> Void)?
 
-    func subscribe(to store: TypedStore, receive: @escaping (ApplicationState) -> Void) {
+    func subscribe<T>(to store: TypedStore, selector: @escaping (ApplicationState) -> T, receive: @escaping (T) -> Void) {
         guard subscription == nil else {
             return
         }
 
-        subscription = store.subscribe {
-            receive(store.applicationState)
-            return KotlinUnit()
+        subscription = store.subscribeChanges { state in
+            selector(state as! ApplicationState)
+        } onUpdate: { value in
+            receive(value as! T)
         }
     }
 
     deinit {
-        _ = subscription?()
+        subscription?()
     }
 }
 
@@ -135,8 +136,7 @@ private protocol SubscribedProperty: DynamicProperty {
 
 private extension SubscribedProperty {
     public func update() {
-        subscriptionHolder.subscribe(to: store) { newState in
-            let newValue = getter.mapper(newState)
+        subscriptionHolder.subscribe(to: store, selector: getter.mapper) { newValue in
             if newValue != currentValue {
                 currentValue = newValue
             }
