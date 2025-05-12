@@ -14,7 +14,7 @@ abstract class AbstractNavigationState<Screen> {
 // navigating back from deep link jump
 enum class NavigationDirection {
     PUSH,
-    POP
+    POP,
 }
 
 data class DirectionalNavigationState<Screen>(

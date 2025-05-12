@@ -5,7 +5,8 @@ enum class NotificationPermission(val value: Int) {
     DENIED(1),
     AUTHORIZED(2),
     PROVISIONAL(3),
-    EPHEMERAL(4);
+    EPHEMERAL(4),
+    ;
 
     companion object {
         fun fromInt(value: Int) = values().first { it.value == value }

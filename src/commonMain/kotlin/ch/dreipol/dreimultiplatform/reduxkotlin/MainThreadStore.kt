@@ -16,7 +16,7 @@ import org.reduxkotlin.createTypedStore
 public inline fun <State, reified Action: Any> createMainThreadStore(
     crossinline reducer: TypedReducer<State, Action>,
     preloadedState: State,
-    noinline enhancer: StoreEnhancer<State>? = null
+    noinline enhancer: StoreEnhancer<State>? = null,
 ): TypedStore<State, Action> =
     MainThreadStore(createTypedStore(reducer, preloadedState, enhancer?.onMainThread()))
 
