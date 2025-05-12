@@ -23,6 +23,7 @@ skie = "0.8.4"
 
 [libraries]
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detektFormatting" }
 dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }

@@ -47,9 +47,6 @@ kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.fromTarget(libs.versions.jvm.target.get()))
         }
-    }
-
-    android {
         publishAllLibraryVariants()
     }
 
@@ -92,6 +89,10 @@ kotlin {
     task("testClasses")
 }
 
+dependencies {
+    detektPlugins(libs.detekt.formatting)
+}
+
 android {
     namespace = "ch.dreipol.dreimultiplatform"
 
@@ -123,6 +124,7 @@ configurations.create("compileClasspath")
 
 detekt {
     config.setFrom("detekt.yml")
+    source.setFrom("src")
     autoCorrect = true
 }
 
