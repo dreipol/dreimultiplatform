@@ -26,3 +26,4 @@ build
 .gradle
 .idea
 local.properties
+.kotlin

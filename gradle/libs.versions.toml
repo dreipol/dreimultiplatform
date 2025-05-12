@@ -1,0 +1,46 @@
+[versions]
+android-minSdk = "23"
+android-compileSdk = "35"
+android-targetSdk = "35"
+appcompat = "1.7.0"
+detektFormatting = "1.23.6"
+dokka = "2.0.0"
+gradle = "8.5.2"
+jvm-target = "17"
+jvm-toolchain = "17"
+kermit = "2.0.3"
+kermitSimple = "2.0.3"
+kotlin = "2.0.10"
+kotlinxCoroutinesCore = "1.8.1"
+kotlinxDatetime = "0.5.0"
+kotlinxSerializationJson = "1.6.3"
+publishPlugin = "1.3.0"
+reduxKotlinThreadsafe = "0.6.1"
+reduxKotlinThunk = "0.6.0"
+review = "2.0.2"
+reviewKtx = "2.0.2"
+skie = "0.8.4"
+
+[libraries]
+appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
+gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
+kermit-simple = { module = "co.touchlab:kermit-simple", version.ref = "kermitSimple" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+publish-plugin = { module = "io.github.gradle-nexus:publish-plugin", version.ref = "publishPlugin" }
+redux-kotlin-threadsafe = { module = "org.reduxkotlin:redux-kotlin-threadsafe", version.ref = "reduxKotlinThreadsafe" }
+redux-kotlin-thunk = { module = "org.reduxkotlin:redux-kotlin-thunk", version.ref = "reduxKotlinThunk" }
+review = { module = "com.google.android.play:review", version.ref = "review" }
+review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "reviewKtx" }
+
+[plugins]
+android-library = { id = "com.android.library", version.ref = "gradle" }
+detekt = {id = "io.gitlab.arturbosch.detekt", version.ref = "detektFormatting"}
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+skie = { id = "co.touchlab.skie", version.ref = "skie" }

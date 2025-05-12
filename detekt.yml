@@ -1,0 +1,106 @@
+# Configuration of detekt rule sets, see https://arturbosch.github.io/detekt/comments.html.
+# This file only lists the differences to the default configuration at
+# https://github.com/arturbosch/detekt/blob/master/detekt-cli/src/main/resources/default-detekt-config.yml.
+
+complexity:
+  CyclomaticComplexMethod:
+    threshold: 25
+  LongMethod:
+    threshold: 158
+  LongParameterList:
+    constructorThreshold: 11
+    functionThreshold: 8
+  NestedBlockDepth:
+    threshold: 10
+  TooManyFunctions:
+    thresholdInClasses: 19
+    thresholdInObjects: 14
+
+coroutines:
+  InjectDispatcher:
+    active: false
+
+# Formatting rules are implemented via the ktlint plugin. As ktlint does not allow exceptions, we need to disable
+# respective rules completely.
+formatting:
+    AnnotationOnSeparateLine:
+        active: false
+    ArgumentListWrapping:
+        active: false
+    ChainWrapping:
+        active: false
+    CommentWrapping:
+        active: false
+    FinalNewline:
+        active: false
+        autoCorrect: true
+    ImportOrdering:
+        active: false
+    Indentation:
+        active: false
+    MaximumLineLength:
+        active: false
+    NoUnusedImports:
+        active: true
+        autoCorrect: true
+    NoWildcardImports:
+        active: false
+    ParameterListWrapping:
+        active: false
+    SpacingBetweenDeclarationsWithAnnotations:
+        active: false
+    TrailingCommaOnCallSite:
+        active: true
+        useTrailingCommaOnCallSite: true
+        autoCorrect: true
+    TrailingCommaOnDeclarationSite:
+        active: true
+        useTrailingCommaOnDeclarationSite: true
+        autoCorrect: true
+
+naming:
+  ConstructorParameterNaming:
+    excludes: ["**/clients/github-graphql/build/generated/**"]
+  InvalidPackageDeclaration:
+    active: false
+  FunctionNaming:
+    active: true
+    excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**', '**/jsTest/**', '**/iosTest/**']
+    functionPattern: '[a-zA-Z][a-zA-Z0-9]*'
+    excludeClassPattern: '$^'
+
+performance:
+  SpreadOperator:
+    active: false
+
+style:
+  DestructuringDeclarationWithTooManyEntries:
+    maxDestructuringEntries: 4
+  ForbiddenComment:
+    active: false
+  LoopWithTooManyJumpStatements:
+    active: false
+  MagicNumber:
+    active: false
+  MaxLineLength:
+    active: true
+    maxLineLength: 140
+    excludeCommentStatements: true
+    excludes: ["**/clients/github-graphql/build/generated/**", "**PreviewScenarios.kt**"]
+  ReturnCount:
+    active: false
+  SpacingBetweenPackageAndImports:
+    active: true
+  ThrowsCount:
+    max: 5
+  UnusedImports:
+    active: true
+  WildcardImport:
+    excludes: ''
+    excludeImports:
+      - org.ossreviewtoolkit.analyzer.managers.*
+      - org.ossreviewtoolkit.helper.commands.*
+      - org.ossreviewtoolkit.utils.spdx.SpdxLicense.*
+      - org.ossreviewtoolkit.utils.spdx.SpdxLicenseException.*
+      - kotlinx.html.*
+      - kotlinx.html.dom.*
