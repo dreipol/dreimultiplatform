@@ -1,3 +1,6 @@
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.KotlinMultiplatform
+import com.vanniktech.maven.publish.SonatypeHost
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -7,7 +10,6 @@ buildscript {
         maven {
             url = uri("https://plugins.gradle.org/m2/")
         }
-
     }
 
     dependencies {
@@ -26,6 +28,7 @@ plugins {
     signing
     alias(libs.plugins.dokka)
     alias(libs.plugins.skie)
+    alias(libs.plugins.vanniktech.maven.publish)
 }
 
 
@@ -140,75 +143,64 @@ tasks.register<Jar>("dokkaJavadocCommonJar") {
     archiveClassifier.set("javadoc")
 }
 
-//if (project == rootProject) {
-//    apply(plugin = "io.github.gradle-nexus.publish-plugin")
-//
-//    publishing {
-//        publications {
-//            create<MavenPublication>("mavenJava") {
-//                from(components["java"])
-//
-//                pom {
-//                    name.set("dreimultiplatform")
-//                    description.set("Shared Repository for KMM projects")
-//                    url.set("https://github.com/dreipol/dreimultiplatform")
-//                    scm {
-//                        url.set("https://github.com/dreipol/dreimultiplatform")
-//                        connection.set("scm:https://github.com/dreipol/dreimultiplatform.git")
-//                        developerConnection.set("scm:git://github.com/dreipol/dreimultiplatform.git")
-//                    }
-//                    licenses {
-//                        license {
-//                            name.set("The MIT License")
-//                            url.set("https://opensource.org/licenses/MIT")
-//                            distribution.set("repo")
-//                        }
-//                    }
-//                    developers {
-//                        developer {
-//                            id.set("melbic")
-//                            name.set("Samuel Bichsel")
-//                            email.set("samuel.bichsel@dreipol.ch")
-//                        }
-//                        developer {
-//                            id.set("kaiwidmer")
-//                            name.set("Kai Widmer")
-//                            email.set("kai.widmer@dreipol.ch")
-//                        }
-//                        developer {
-//                            id.set("tschuls")
-//                            name.set("Julia Strasser")
-//                            email.set("julia.strasser@dreipol.ch")
-//                        }
-//                        developer {
-//                            id.set("lailabecker")
-//                            name.set("Laila Becker")
-//                            email.set("laila.becker@dreipol.ch")
-//                        }
-//                    }
-//                }
-//            }
-//
-//            artifact(tasks.named("dokkaHtmlJavadocCommonJar"))
-//        }
-//
-//        signing {
-//            val signingKey = System.getenv("PGP_KEY")
-//            var signingPassword = ""
-//            if (project.hasProperty("signing.password")) {
-//                signingPassword = project.property("signing.password").toString()
-//            }
-//            useInMemoryPgpKeys(signingKey, signingPassword)
-//            sign(publishing.publications)
-//        }
-//    }
-//
-//    configure<io.github.gradle_nexus.publisher.NexusPublishExtension> {
-//        repositories {
-//            sonatype {
-//                nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
-//                snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-//            }
-//        }
-//    }
-//}
+if (project == rootProject) {
+    mavenPublishing {
+        configure(KotlinMultiplatform(javadocJar = JavadocJar.Dokka("dokkaJavadocCommonJar")))
+        publishToMavenCentral(SonatypeHost("https://s01.oss.sonatype.org/service/local/"))
+        signAllPublications()
+    }
+
+    publishing {
+        publications.withType<MavenPublication> {
+            pom {
+                name.set("dreimultiplatform")
+                description.set("Shared Repository for KMM projects")
+                url.set("https://github.com/dreipol/dreimultiplatform")
+                scm {
+                    url.set("https://github.com/dreipol/dreimultiplatform")
+                    connection.set("scm:https://github.com/dreipol/dreimultiplatform.git")
+                    developerConnection.set("scm:git://github.com/dreipol/dreimultiplatform.git")
+                }
+                licenses {
+                    license {
+                        name.set("The MIT License")
+                        url.set("https://opensource.org/licenses/MIT")
+                        distribution.set("repo")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("melbic")
+                        name.set("Samuel Bichsel")
+                        email.set("samuel.bichsel@dreipol.ch")
+                    }
+                    developer {
+                        id.set("kaiwidmer")
+                        name.set("Kai Widmer")
+                        email.set("kai.widmer@dreipol.ch")
+                    }
+                    developer {
+                        id.set("tschuls")
+                        name.set("Julia Strasser")
+                        email.set("julia.strasser@dreipol.ch")
+                    }
+                    developer {
+                        id.set("lailabecker")
+                        name.set("Laila Becker")
+                        email.set("laila.becker@dreipol.ch")
+                    }
+                }
+            }
+        }
+
+        signing {
+            val signingKey = System.getenv("PGP_KEY")
+            var signingPassword = ""
+            if (project.hasProperty("signing.password")) {
+                signingPassword = project.property("signing.password").toString()
+            }
+            useInMemoryPgpKeys(signingKey, signingPassword)
+            sign(publishing.publications)
+        }
+    }
+}

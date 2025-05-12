@@ -20,6 +20,7 @@ reduxKotlinThunk = "0.6.0"
 review = "2.0.2"
 reviewKtx = "2.0.2"
 skie = "0.8.4"
+vanniktech-maven-publish = "0.29.0"
 
 [libraries]
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
@@ -45,3 +46,4 @@ detekt = {id = "io.gitlab.arturbosch.detekt", version.ref = "detektFormatting"}
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 skie = { id = "co.touchlab.skie", version.ref = "skie" }
+vanniktech-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktech-maven-publish" }
