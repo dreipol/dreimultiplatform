@@ -1,0 +1,20 @@
+# EXAMPLE USAGE:
+#
+#   Refer for explanation to following link:
+#   https://github.com/evilmartians/lefthook/blob/master/docs/configuration.md
+
+prepare-commit-msg:
+    commands:
+        add-jira-id:
+            run: .lefthook/prepare-commit-msg {1}
+            runner: bash
+
+pre-commit:
+    parallel: true
+    commands:
+        swiftlint:
+            glob: "*.{swift}"
+            run: swiftlint --autocorrect --strict --no-cache {staged_files}
+        detekt:
+            glob: "*.{kt}"
+            run: detekt -ac -i "$(echo {staged_files} | tr ' ' ',')" -c detekt.yml -p .lefthook/detekt-formatting.jar
