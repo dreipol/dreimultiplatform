@@ -1,10 +1,11 @@
 [versions]
 android-minSdk = "23"
-android-compileSdk = "35"
-android-targetSdk = "35"
+android-compileSdk = "34"
+android-targetSdk = "34"
 appcompat = "1.7.0"
 detektFormatting = "1.23.6"
 dokka = "2.0.0"
+github-nexus-publish = "2.0.0"
 gradle = "8.5.2"
 jvm-target = "17"
 jvm-toolchain = "17"
@@ -44,6 +45,7 @@ review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "rev
 android-library = { id = "com.android.library", version.ref = "gradle" }
 detekt = {id = "io.gitlab.arturbosch.detekt", version.ref = "detektFormatting"}
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+github-nexus-publish = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "github-nexus-publish" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 skie = { id = "co.touchlab.skie", version.ref = "skie" }
 vanniktech-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktech-maven-publish" }
