@@ -29,7 +29,6 @@ plugins {
     alias(libs.plugins.dokka)
     alias(libs.plugins.skie)
     alias(libs.plugins.vanniktech.maven.publish)
-    alias(libs.plugins.github.nexus.publish)
 }
 
 
@@ -136,23 +135,19 @@ tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
     exclude("**/generated/**") // but exclude our legacy internal package
 }
 
-// TODO: find out what this is supposed to do
-//tasks.register<Jar>("dokkaJavadocCommonJar") {
-//    dependsOn("dokkaHtml")
-//    group = "publishing"
-//
-//    from("$buildDir/javadoc/common")
-//    archiveClassifier.set("javadoc")
-//}
+tasks.register<Jar>("dokkaJavadocCommonJar") {
+    dependsOn("dokkaHtml")
+    group = "publishing"
+
+    from("$buildDir/javadoc/common")
+    archiveClassifier.set("javadoc")
+}
 
 if (project == rootProject) {
-    nexusPublishing {
-        repositories {
-            sonatype {
-                nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
-                snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-            }
-        }
+    mavenPublishing {
+        configure(KotlinMultiplatform(javadocJar = JavadocJar.Dokka("dokkaJavadocCommonJar")))
+        publishToMavenCentral(SonatypeHost("https://s01.oss.sonatype.org/service/local/"))
+        signAllPublications()
     }
 
     publishing {
@@ -197,21 +192,15 @@ if (project == rootProject) {
                 }
             }
         }
-    }
 
-    signing {
-        val signingKey = System.getenv("PGP_KEY")
-        var signingPassword = ""
-        if (project.hasProperty("signing.password")) {
-            signingPassword = project.property("signing.password").toString()
+        signing {
+            val signingKey = System.getenv("PGP_KEY")
+            var signingPassword = ""
+            if (project.hasProperty("signing.password")) {
+                signingPassword = project.property("signing.password").toString()
+            }
+            useInMemoryPgpKeys(signingKey, signingPassword)
+            sign(publishing.publications)
         }
-        useInMemoryPgpKeys(signingKey, signingPassword)
-        sign(publishing.publications)
-    }
-
-    mavenPublishing {
-        configure(KotlinMultiplatform(javadocJar = JavadocJar.Dokka("dokkaHtml")))
-        publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
-        signAllPublications()
     }
 }
