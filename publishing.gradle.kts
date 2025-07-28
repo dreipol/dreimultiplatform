@@ -8,7 +8,7 @@ plugins {
 
 mavenPublishing {
     configure(KotlinMultiplatform(javadocJar = JavadocJar.Dokka("dokkaHtml")))
-    publishToMavenCentral(SonatypeHost("https://s01.oss.sonatype.org/service/local/"))
+    publishToMavenCentral(SonatypeHost("https://ossrh-staging-api.central.sonatype.com/service/local/"))
     signAllPublications()
 
     pom {
