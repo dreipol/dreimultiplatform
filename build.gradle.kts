@@ -1,6 +1,5 @@
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
-import com.vanniktech.maven.publish.SonatypeHost
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -145,18 +144,9 @@ tasks.register<Jar>("dokkaJavadocCommonJar") {
 }
 
 if (project == rootProject) {
-    nexusPublishing {
-        repositories {
-            sonatype {
-                nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
-                snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
-            }
-        }
-    }
-
     mavenPublishing {
         configure(KotlinMultiplatform(javadocJar = JavadocJar.Dokka("dokkaJavadocCommonJar")))
-        publishToMavenCentral(SonatypeHost("https://ossrh-staging-api.central.sonatype.com/service/local/"))
+        publishToMavenCentral()
         signAllPublications()
     }
 
