@@ -11,6 +11,7 @@ jvm-toolchain = "17"
 kermit = "2.0.8"
 kotlin = "2.2.10"
 kotlinxCoroutinesCore = "1.10.2"
+kotlinxDatetime = "0.7.1"
 kotlinxSerializationJson = "1.9.0"
 publishPlugin = "2.0.0"
 reduxKotlinThreadsafe = "0.6.1"
@@ -30,6 +31,7 @@ kermit-simple = { module = "co.touchlab:kermit-simple", version.ref = "kermit" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 publish-plugin = { module = "io.github.gradle-nexus:publish-plugin", version.ref = "publishPlugin" }
 redux-kotlin-threadsafe = { module = "org.reduxkotlin:redux-kotlin-threadsafe", version.ref = "reduxKotlinThreadsafe" }
