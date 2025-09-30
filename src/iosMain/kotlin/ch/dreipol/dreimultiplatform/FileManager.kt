@@ -12,9 +12,7 @@ import platform.Foundation.NSFileManager
 import platform.Foundation.NSString
 import platform.Foundation.NSURL
 import platform.Foundation.NSUTF8StringEncoding
-import platform.Foundation.URLByAppendingPathComponent
 import platform.Foundation.dataWithContentsOfURL
-import platform.Foundation.lastPathComponent
 import platform.Foundation.stringWithContentsOfURL
 import platform.Foundation.writeToFile
 

@@ -9,6 +9,7 @@ import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.toNSDateComponents
 import platform.Foundation.NSCalendar
 import platform.Foundation.NSDateFormatter
+import kotlin.time.ExperimentalTime
 
 actual class DateTimeFormatter(private val formatter: NSDateFormatter) {
     actual companion object {
@@ -31,16 +32,19 @@ actual class DateTimeFormatter(private val formatter: NSDateFormatter) {
         return formatter.stringFromDate(nsDate)
     }
 
+    @OptIn(ExperimentalTime::class)
     actual fun parse(date: String): LocalDateTime {
         return formatter.dateFromString(date)?.toKotlinInstant()?.toLocalDateTime(formatter.timeZone.toKotlinTimeZone())
             ?: throw IllegalArgumentException("Date $date could not be parsed.")
     }
 
+    @OptIn(ExperimentalTime::class)
     actual fun parseDate(date: String): LocalDate {
         return formatter.dateFromString(date)?.toKotlinInstant()?.toLocalDateTime(formatter.timeZone.toKotlinTimeZone())?.date
             ?: throw IllegalArgumentException("Date $date could not be parsed.")
     }
 
+    @OptIn(ExperimentalTime::class)
     actual fun parseTime(date: String): LocalTime {
         return formatter.dateFromString(date)?.toKotlinInstant()?.toLocalDateTime(formatter.timeZone.toKotlinTimeZone())?.time
             ?: throw IllegalArgumentException("Date $date could not be parsed.")
