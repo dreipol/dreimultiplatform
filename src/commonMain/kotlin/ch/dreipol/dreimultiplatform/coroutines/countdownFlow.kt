@@ -2,10 +2,12 @@ package ch.dreipol.dreimultiplatform.coroutines
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 fun countDownFlow(
     duration: Duration,
     period: Duration = 1.seconds,
@@ -20,6 +22,7 @@ fun countDownFlow(
     }
 }
 
+@OptIn(ExperimentalTime::class)
 fun countUpFlow(
     initial: Duration = 0.seconds,
     period: Duration = 1.seconds,

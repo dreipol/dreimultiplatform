@@ -64,7 +64,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(libs.kotlinx.coroutines.core)
-            implementation(libs.kotlinx.datetime)
             api(libs.redux.kotlin.threadsafe)
             api(libs.redux.kotlin.thunk)
             api(libs.kermit)
@@ -80,7 +79,6 @@ kotlin {
             implementation(libs.appcompat)
             implementation(libs.review)
             implementation(libs.review.ktx)
-            api(libs.kotlinx.datetime)
         }
 
         iosMain.dependencies {

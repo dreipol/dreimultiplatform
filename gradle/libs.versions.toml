@@ -1,25 +1,23 @@
 [versions]
 android-minSdk = "23"
-android-compileSdk = "34"
-android-targetSdk = "34"
-appcompat = "1.7.0"
-detektFormatting = "1.23.6"
+android-compileSdk = "36"
+android-targetSdk = "36"
+appcompat = "1.7.1"
+detektFormatting = "1.23.8"
 dokka = "2.0.0"
 gradle = "8.5.2"
 jvm-target = "17"
 jvm-toolchain = "17"
-kermit = "2.0.3"
-kermitSimple = "2.0.3"
-kotlin = "2.0.10"
-kotlinxCoroutinesCore = "1.8.1"
-kotlinxDatetime = "0.5.0"
-kotlinxSerializationJson = "1.6.3"
+kermit = "2.0.8"
+kotlin = "2.2.10"
+kotlinxCoroutinesCore = "1.10.2"
+kotlinxSerializationJson = "1.9.0"
 publishPlugin = "2.0.0"
 reduxKotlinThreadsafe = "0.6.1"
 reduxKotlinThunk = "0.6.0"
 review = "2.0.2"
 reviewKtx = "2.0.2"
-skie = "0.8.4"
+skie = "0.10.6"
 vanniktech-maven-publish = "0.34.0"
 
 [libraries]
@@ -28,11 +26,10 @@ detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", 
 dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
-kermit-simple = { module = "co.touchlab:kermit-simple", version.ref = "kermitSimple" }
+kermit-simple = { module = "co.touchlab:kermit-simple", version.ref = "kermit" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
-kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 publish-plugin = { module = "io.github.gradle-nexus:publish-plugin", version.ref = "publishPlugin" }
 redux-kotlin-threadsafe = { module = "org.reduxkotlin:redux-kotlin-threadsafe", version.ref = "reduxKotlinThreadsafe" }
