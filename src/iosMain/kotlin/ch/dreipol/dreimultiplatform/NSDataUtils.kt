@@ -1,20 +1,24 @@
 package ch.dreipol.dreimultiplatform
 
-import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.allocArrayOf
 import kotlinx.cinterop.memScoped
-import kotlinx.cinterop.usePinned
+import kotlinx.cinterop.readBytes
 import platform.Foundation.NSData
 import platform.Foundation.create
-import platform.posix.memcpy
 
 @OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
 fun NSData.toByteArray(): ByteArray {
-    return ByteArray(length.toInt()).apply {
-        usePinned {
-            memcpy(it.addressOf(0), bytes, length)
-        }
+    val len = this.length.toLong()
+
+    if (len > Int.MAX_VALUE) {
+        throw IllegalArgumentException("NSData is too large to fit in a ByteArray (max 2GB)")
     }
+
+    if (len == 0L || this.bytes == null) {
+        return ByteArray(0)
+    }
+
+    return this.bytes!!.readBytes(len.toInt())
 }
 
 @OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
