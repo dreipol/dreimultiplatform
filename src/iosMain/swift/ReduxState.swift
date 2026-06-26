@@ -116,7 +116,8 @@ private class SubscriptionHolder {
         subscription = store.subscribeChanges { state in
             selector(state as! ApplicationState)
         } onUpdate: { value in
-            receive(value as! T)
+            // Since kotlin 2.4 we end up with an Any? that is .some(NSNull) here
+            receive((value is NSNull ? nil : value) as! T)
         }
     }
 
