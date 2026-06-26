@@ -102,7 +102,6 @@ android {
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
     }
 
     compileOptions {
@@ -110,7 +109,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     buildTypes {
         getByName("debug") {
             matchingFallbacks += listOf("release")
@@ -139,7 +137,7 @@ tasks.register<Jar>("dokkaJavadocCommonJar") {
     dependsOn("dokkaHtml")
     group = "publishing"
 
-    from("$buildDir/javadoc/common")
+    from(layout.buildDirectory.dir("javadoc/common"))
     archiveClassifier.set("javadoc")
 }
 
